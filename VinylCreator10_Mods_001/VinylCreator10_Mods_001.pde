@@ -9,8 +9,8 @@ import java.util.Random;
 
 
 // drawing variables, typographic constants
-int typeHeight = 62;
-int typeDescriptionHeight = int(typeHeight*0.67);
+int typeHeight = 66;
+int typeDescriptionHeight = 37;
 float lineRatio = 1.167;
 String albumName = "Wicked Batch of a Test";
 
@@ -170,7 +170,7 @@ void drawTrackList(){
 
 void drawDescription(){
   float lineDescriptionHeight = float(typeDescriptionHeight) * lineRatio;
-  textFont(createFont("DroidSans", int(typeDescriptionHeight*0.67)));
+  textFont(createFont("DroidSans", typeDescriptionHeight));
   
   // draw production deatails
   String multilineString1 = "All tracks are licensed to Artificial recordings, additional mastering";
