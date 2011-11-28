@@ -23,7 +23,7 @@ String track2B = "2B. Insufficient Parameters (boolean Mix) 5:13";
 float leftAlignX = 274.0;
 float typeInitY = 1370.0;
 boolean useRoundedTextBackground = true;
-int roundedBGmode = 1;  // or 1 for slightly different flavour.
+int roundedBGmode = 1;  // choices are 0 or 1, for slightly different flavours.
 
 // outline for during design, printing aids
 boolean outer = true;
