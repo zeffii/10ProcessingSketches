@@ -7,12 +7,21 @@ Released under MIT license.
 import processing.pdf.*;
 import java.util.Random;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.io.File;
 
 // drawing variables, typographic constants
-int typeHeight = 60;
-int typeDescriptionHeight = 30;
+int typeHeight = 65;
+int typeDescriptionHeight = 40;
 float lineRatio = 1.167;
-String albumName = "Wicked Batch of a Test";
+String albumName = "Wicked_Batch_of_a_Test" + ".pdf";
+String track1A = "1A. Via Osmosis (Original Mix) 3:42";
+String track2A = "2A. Carpool Tunnel Syndrome (Disjointed Mix) 7:23";
+String track1B = "1B. Via Osmosis (Stigma Mix) 4:35";
+String track2B = "2B. Insufficient Parameters (boolean Mix) 5:13";
+float leftAlignX = 274.0;
+float typeInitY = 1370.0;
 
 // outline for during design, printing aids
 boolean outer = true;
@@ -22,12 +31,13 @@ float outerRadius = 980;
 float innerRadius = 60;
 
 // random image properties
-boolean randomImagePosition = true;
+boolean randomImagePosition = false;
 boolean randomImage = false; //true;
 boolean semiRandomTintFX = false; //true;
+boolean displayAfterwards = true;
+
 
 void setup(){
-  albumName += ".pdf";
   size(2000, 4000, PDF, albumName);
   textMode(SHAPE);  // necessary?
 
@@ -35,25 +45,32 @@ void setup(){
 
 
 void draw(){
-
+  print("running...\n");
+  
   background(230);
  
   // side B
   drawRaster(0, 2000);
   drawFauxClipPath(1000.0, 3000.0);  
+  drawTrackList("B");
   drawCentrePiece(1000.0, 3000.0);
   drawCrossHair(1000.0, 3000.0, innerRadius/2);  
    
   // side A
   drawForcedBackground();
   drawOutlines(1000.0);
-  drawTrackList();  
+  drawTrackList("A");  
   drawDAlogo();
   drawDescription();
   
+  print("\nDone\n");
   // Quit the program
   exit();
-
+  
+  if (displayAfterwards){
+    openPDF(albumName);
+  }
+  
 }
 
 // SIDE B
@@ -64,6 +81,7 @@ void drawRaster(float tXpos, float tYpos){
   // fallback value.
   PImage img;
   String imageName = "shape_005_03.png";
+  imageMode(CENTER);
     
   if (randomImage){
     String[] imageNameArray = new String[2];
@@ -80,10 +98,12 @@ void drawRaster(float tXpos, float tYpos){
   
   img = loadImage(imageName);
   print("using image name " + imageName + "\n");
-  
+  float imgWidth = img.width;
+  float imgHeight = img.height;
+    
   if (randomImagePosition){
-    float imgWidth = img.width;
-    float imgHeight = img.height;
+    imageMode(CORNER);
+    
     print("image width: " + imgWidth + ", " + "image height: " + imgHeight);
     
     float xVariation = (imgWidth - 2000);
@@ -106,7 +126,17 @@ void drawRaster(float tXpos, float tYpos){
     print(str(rTintR) + "," + str(rTintG) + "," + str(rTintB));
   } 
   
-  image(img, tXpos, tYpos);
+  if (randomImagePosition){
+    image(img, tXpos, tYpos);
+  }else{
+    //  translate(imgWidth/2, imgHeight/2);
+    // rotate(.4);
+    pushMatrix();
+    translate(1000,3000);
+    rotate(1.6);  
+    image(img, 0, 0);
+    popMatrix();
+}
   
 }
 
@@ -152,19 +182,36 @@ void drawForcedBackground(){
 }
 
 
-void drawTrackList(){  
-  float x1 = 500;
-  float y1 = 1290;
+void drawTrackList(String SIDE){  
+  float x1 = leftAlignX;
+  float y1 = typeInitY;
   float lineHeight = float(typeHeight) * lineRatio;
   
   textFont(createFont("DroidSans", typeHeight));
-  textAlign(LEFT);
-  color textColour = color(80, 80, 80);
-  drawSomeText("1A. Some String bongo [4:23]", x1, y1, textColour);
-  drawSomeText("1B. Some String bongo Remix [6:23]", x1, y1+lineHeight, textColour);
-  drawSomeText("2A. Some Rochfort boolean [4:35]", x1, y1+(lineHeight*2), textColour);
-  drawSomeText("2B. Some Massive true void [3:23]", x1, y1+(lineHeight*3), textColour);
-
+  
+  if (SIDE.equals("A")){
+    textAlign(LEFT);
+    color textColour = color(80, 80, 80);
+    drawSomeText(track1A, x1, y1, textColour);
+    drawSomeText(track2A, x1, y1+lineHeight, textColour);
+  }
+  
+  if (SIDE.equals("B")){
+    textAlign(LEFT);
+    y1 += 2000;
+    
+    boolean BGNEEDED = true;
+    if (BGNEEDED){
+      noStroke();    
+      fill(0);
+      float textAdjustY = typeHeight+3;
+      rect(x1, y1-textAdjustY, textWidth(track2B), 179);  
+    }
+    
+    color textColour = color(250, 250, 250);
+    drawSomeText(track1B, x1, y1+(lineHeight*0), textColour);
+    drawSomeText(track2B, x1, y1+(lineHeight*1), textColour);
+  }
 }
 
 
@@ -175,7 +222,7 @@ void drawDescription(){
   // draw production deatails
   String multilineString1 = "All tracks are licensed to Artificial recordings, additional mastering";
   String multilineString2 = "done by Totally Ridiculous Dynamics at Trendy studios";
-  float descriptionYPos = 1790;
+  float descriptionYPos = 1730;
   color textColour = color(80, 80, 80);
   textAlign(CENTER);
   drawSomeText(multilineString1, 1000, descriptionYPos, textColour);
@@ -191,7 +238,7 @@ void drawDAlogo(){
   PShape dalogo = loadShape("da_logo.svg");
   shapeMode(CENTER);
   dalogo.scale(.7);
-  shape(dalogo, 1000, 1670);
+  shape(dalogo, 1000, 1610);
 
 }
 
@@ -229,6 +276,29 @@ void drawEllipse(float centrePoint, float tRadius, boolean tDrawStroke){
 }
 
 
+void openPDF(String albumName){
+  
+ String pathToFile = "C:\\Users\\dealga\\Documents\\Processing\\VINYL\\VinylCreator10_VARIATION_02\\" + albumName;
+ print(pathToFile + "\n");
+ 
+ if (Desktop.isDesktopSupported()) {
+   try {
+     // apparently this isn't cosher, but while developling i'm ok with this.
+      Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + pathToFile);
+      
+      // ideally one uses these two lines insteaf of the Runtime line above.
+      // File myFile = new File(pathToFile);
+      // Desktop.getDesktop().open(myFile);
+ 
+   } catch (IOException ex) {
+        print("no application registered for PDFs");
+   }
+   
+  }
+   
+}
+  
+  
 
 
 
