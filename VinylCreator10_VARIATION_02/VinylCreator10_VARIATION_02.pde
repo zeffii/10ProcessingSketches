@@ -22,6 +22,8 @@ String track1B = "1B. Via Osmosis (Stigma Mix) 4:35";
 String track2B = "2B. Insufficient Parameters (boolean Mix) 5:13";
 float leftAlignX = 274.0;
 float typeInitY = 1370.0;
+boolean useRoundedTextBackground = true;
+int roundedBGmode = 1;  // or 1 for slightly different flavour.
 
 // outline for during design, printing aids
 boolean outer = true;
@@ -202,11 +204,50 @@ void drawTrackList(String SIDE){
     
     boolean BGNEEDED = true;
     if (BGNEEDED){
+      
+      float boxHeight = 178;
       noStroke();    
       fill(0);
       float textAdjustY = typeHeight+3;
-      rect(x1, y1-textAdjustY, textWidth(track2B), 179);  
-    }
+             
+      float longestText = max(textWidth(track2B), textWidth(track1B)); 
+      
+      if (useRoundedTextBackground){
+        if (roundedBGmode == 0){
+          // ellpises on both sides are the same radius
+          rect(x1, y1-textAdjustY, longestText, boxHeight);
+          ellipseMode(CORNER);
+          ellipse(x1 - (boxHeight/2), y1-textAdjustY, boxHeight, boxHeight);     
+          ellipse(x1 + longestText - (boxHeight/2),  y1-textAdjustY, boxHeight, boxHeight); 
+        }
+        if (roundedBGmode == 1){     
+          // we draw two different rects
+          rect(x1, (y1 - textAdjustY), textWidth(track1B), boxHeight/2);
+          rect(x1, (y1 + lineHeight - textAdjustY), textWidth(track2B), boxHeight/2);
+       
+          float ellipseRadius = (y1+lineHeight-textAdjustY + (boxHeight/2)) - (y1 - textAdjustY);
+          float ellipseHalfX = ellipseRadius * 0.5;
+          
+          // ellipse on the left is full size, and ellipses on the right are typeheight
+          // and positioned at line width (textWidth).
+          ellipseMode(CORNER);
+          ellipse(x1 - (ellipseRadius/2), y1-textAdjustY, ellipseRadius, ellipseRadius); // left
+          
+          // rightside parameters
+          float r1X = (x1 + textWidth(track1B) - boxHeight/4);
+          float r1Y = y1 - textAdjustY;
+          float r2X = (x1 + textWidth(track2B) - boxHeight/4);
+          float r2Y = y1 + lineHeight - textAdjustY;
+          ellipse(r1X, r1Y, boxHeight/2, boxHeight/2); //right
+          ellipse(r2X, r2Y, boxHeight/2, boxHeight/2); //right
+        }
+        
+      }
+      else{
+        rect(x1, y1-textAdjustY, longestText, boxHeight);
+      }
+      
+    }  // end of if bg needed.
     
     color textColour = color(250, 250, 250);
     drawSomeText(track1B, x1, y1+(lineHeight*0), textColour);
