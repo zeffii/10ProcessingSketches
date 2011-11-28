@@ -9,7 +9,7 @@ import java.util.Random;
 
 
 // drawing variables, typographic constants
-int typeHeight = 66;
+int typeHeight = 64;
 int typeDescriptionHeight = 37;
 float lineRatio = 1.167;
 String albumName = "Wicked Batch of a Test";
@@ -159,7 +159,7 @@ void drawTrackList(){
   
   textFont(createFont("DroidSans", typeHeight));
   textAlign(LEFT);
-  color textColour = color(40, 40, 80);
+  color textColour = color(80, 80, 80);
   drawSomeText("1A. Some String bongo [4:23]", x1, y1, textColour);
   drawSomeText("1B. Some String bongo Remix [6:23]", x1, y1+lineHeight, textColour);
   drawSomeText("2A. Some Rochfort boolean [4:35]", x1, y1+(lineHeight*2), textColour);
