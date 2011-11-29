@@ -14,6 +14,9 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.io.File;
 
+
+String path = "";
+
 // typographic constants
 int typeHeight = 65; // for copy text
 int typeDescriptionHeight = 40;  // for information
@@ -54,6 +57,7 @@ boolean displayAfterwards = true;
 
 
 void setup(){
+  path = sketchPath;
   size(2000, 4000, PDF, albumName);
   textMode(SHAPE);  // necessary?
 
@@ -381,7 +385,8 @@ void drawEllipse(float centrePoint, float tRadius, boolean tDrawStroke){
 
 void openPDF(String albumName){
   
- String pathToFile = "C:\\Users\\dealga\\Documents\\Processing\\VINYL\\VinylCreator10_VARIATION_04\\" + albumName;
+ // replace this with current path.
+ String pathToFile = path + "\\" + albumName;
  print(pathToFile + "\n");
  
  if (Desktop.isDesktopSupported()) {
