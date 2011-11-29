@@ -1,4 +1,4 @@
-![10ProcessingSketches]  (https://github.com/zeffii/10ProcessingSketches/ComboVersion_10_v2.png)
+![10ProcessingSketches]  (https://github.com/zeffii/10ProcessingSketches/raw/master/ComboVersion_10_v2.png)
 
     Usage  
     - to be written  
