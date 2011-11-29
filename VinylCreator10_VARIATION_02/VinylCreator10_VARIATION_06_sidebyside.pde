@@ -50,8 +50,9 @@ float outerRadius = 980;
 float innerRadius = 60;
 
 // random image properties, to declare images for selecting add them to drawRaster
-boolean randomImagePosition = true; // false;
+boolean randomImagePosition = false;
 boolean randomImage = false; //true;
+boolean randomRotateImage = true;
 boolean semiRandomTintFX = false; //true;
 boolean displayAfterwards = true;
 
@@ -145,14 +146,19 @@ void drawRaster(float tXpos, float tYpos){
   
   if (randomImagePosition){
     image(img, tXpos, tYpos);
-  }else{
-    pushMatrix();
-    translate(3000,1000);
-    rotate(1.6);  
-    image(img, 0, 0);
-    popMatrix();
   }
-  
+  else{
+    if (randomRotateImage){
+      pushMatrix();
+        translate(3000,1000);
+        float randomRotation = random(0, TWO_PI);
+        print("\ncurrent rotation: " + str(randomRotation));
+        rotate(randomRotation);  
+        image(img, 0, 0);
+      popMatrix();
+    
+    }
+  }
 }
 
 
