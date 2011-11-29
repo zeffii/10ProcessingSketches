@@ -20,6 +20,6 @@ Milestone 1
 Milestone 2  
 [x] create pdf  
 [ ] using openGL drawing commands instead  
-[ ] including dashed lines and some time of optimal clippath  
+[ ] including dashed lines and some type of optimal clippath  
 [ ] get generative 3d artwork going on
 [ ] draw to window, modify some variables and then write pdf
