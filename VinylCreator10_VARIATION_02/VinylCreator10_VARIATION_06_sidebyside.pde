@@ -50,7 +50,7 @@ float outerRadius = 980;
 float innerRadius = 60;
 
 // random image properties, to declare images for selecting add them to drawRaster
-boolean randomImagePosition = false;
+boolean randomImagePosition = true; // false;
 boolean randomImage = false; //true;
 boolean semiRandomTintFX = false; //true;
 boolean displayAfterwards = true;
@@ -125,8 +125,8 @@ void drawRaster(float tXpos, float tYpos){
     imageMode(CORNER);
     float xVariation = (imgWidth - 2000);
     float yVariation = (imgHeight - 2000);
-    tXpos = random(0, -xVariation);
-    tYpos = random(2000-yVariation, 2000);
+    tXpos = random(2000, 2000-xVariation);
+    tYpos = random(0, -yVariation);
   }
   
   if (semiRandomTintFX){
