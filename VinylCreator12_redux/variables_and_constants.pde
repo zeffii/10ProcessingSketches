@@ -12,6 +12,9 @@ float typeInitY = 1370.0;
 boolean useRoundedTextBackground = true;
 int roundedBGmode = 1;  // 0 or 1 are slightly different flavours, ignored if useRoundedTextBackground is false;
 boolean drawSideBClipLimits = false;
+PVector centerSideB = new PVector(3000.0, 1000.0);
+PVector centerSideA = new PVector(1000.0, 1000.0);
+
 
 // text (track names)
 String albumName = "Wicked_Batch_of_a_Test" + ".pdf";
@@ -32,9 +35,10 @@ boolean crossHair = true;
 float outerRadius = 980;
 float innerRadius = 60;
 
-// random image properties, to declare images for selecting add them to drawRaster
-boolean randomImagePosition = false;
-boolean randomImage = false; //true;
-boolean randomRotateImage = true;
+// random image properties
+boolean randomImage = false; // false; //true;
+boolean randomImagePosition = true;
+boolean randomImageRotate = false;  // do not set rotate and position both to random.
 boolean semiRandomTintFX = false; //true;
 boolean displayAfterwards = true;
+String selectedImageName = "";

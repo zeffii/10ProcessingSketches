@@ -3,9 +3,8 @@ Vinyl Art Work Generator.
 By Dealga McArdle Nov 2011.
 Released under MIT license.
 
-29 Nov, after experiments of bezierVertex..which didn't look great, i used straight
-shapes instead.
-
+30 Nov. split into seperate files for readability.
+1 Dec.  refactor and code rearrangement.
 */
 
 import processing.pdf.*;
@@ -24,26 +23,24 @@ void setup(){
 
 
 void draw(){
-  print("running...\n");
   
+  print("running...\n");
   background(230);
- 
+
   // side B
-  drawRaster(3000, 1000);
-  drawFauxClipPath(3000.0, 1000.0);  
+  drawRaster(centerSideB);
+  drawFauxClipPath(centerSideB);  
   drawTrackList("B");
-  //drawCentrePiece(3000.0, 1000.0);
-  drawCrossHair(3000.0, 1000.0, innerRadius/2);  
+  drawCrossHair(centerSideB, innerRadius/2);  
    
   // side A
   drawForcedBackground();
-  drawOutlines(1000.0);
+  drawOutlines(centerSideA);
   drawTrackList("A");  
   drawDAlogo();
   drawDescription();
   
   print("\nDone\n");
-  // Quit the program
   exit();
   
   if (displayAfterwards){
@@ -52,84 +49,25 @@ void draw(){
   
 }
 
-// SIDE B
+
+/*    S I D E   B    */
+
 
 // draws the non vector .png underneath the circular 'clippath'
-void drawRaster(float tXpos, float tYpos){
-  
-  // fallback value.
-  PImage img;
-  String imageName = "shape_005_03.png";
-  imageMode(CENTER);
-    
-  if (randomImage){
-    String[] imageNameArray = new String[2];
-    imageNameArray[0] = "shape_005_03.png";
-    imageNameArray[1] = "shape_005_03b.png";
-    // etc..
-    // etc..
-    int arrayLength = imageNameArray.length;
-    Random generator = new Random();
-    int randomIndex = generator.nextInt(arrayLength);
-    imageName = imageNameArray[randomIndex];  
-  }
-  
-  img = loadImage(imageName);
-  print("using image name " + imageName + "\n");
-  float imgWidth = img.width;
-  float imgHeight = img.height;
-    
-  if (randomImagePosition){
-    print("image width: " + imgWidth + ", " + "image height: " + imgHeight);
-    imageMode(CORNER);
-    float xVariation = (imgWidth - 2000);
-    float yVariation = (imgHeight - 2000);
-    tXpos = random(2000, 2000-xVariation);
-    tYpos = random(0, -yVariation);
-  
-  }
-  
-  if (semiRandomTintFX){
-    Random tintR = new Random();
-    Random tintG = new Random();
-    Random tintB = new Random();
-    int rTintR = tintR.nextInt(156) + 100;
-    int rTintG = tintR.nextInt(156) + 100;
-    int rTintB = tintR.nextInt(156) + 100;
-    tint(rTintR, rTintG, rTintB);
-    
-    // in case it's cool
-    print("\n");
-    print(str(rTintR) + "," + str(rTintG) + "," + str(rTintB));
-  
-  } 
-  
-  if (randomImagePosition){
-    image(img, tXpos, tYpos);
-  }
-  else{
-    if (randomRotateImage){
-      pushMatrix();
-        translate(3000,1000);
-        float randomRotation = random(0, TWO_PI);
-        print("\ncurrent rotation: " + str(randomRotation));
-        rotate(randomRotation);  
-        image(img, 0, 0);
-      popMatrix();
-    
-    }
-  }
-
+void drawRaster(PVector rasterPos){
+  PImage img = getImage();
+  performTransformsAndDraw(rasterPos, img);  
+  printImageStats(img);
 }
 
 
-void drawFauxClipPath(float cPointX, float cPointY){
+void drawFauxClipPath(PVector cPoint){
   // the ugly way.. but it got the job done.
   
   fill(255);
   noStroke();
       
-  beginShape();  //top right, first quadrant
+  beginShape();  //top right, first quadrant goes clockwise.
     vertex(3500, 0);
     vertex(4000, 0);
     vertex(4000, 500);
@@ -162,7 +100,7 @@ void drawFauxClipPath(float cPointX, float cPointY){
   strokeWeight(180);
   stroke(255);
   float cRad = 2142;
-  ellipse(cPointX, cPointY, cRad, cRad);
+  ellipse(cPoint.x, cPoint.y, cRad, cRad);
    
      
   if (drawSideBClipLimits){  
@@ -171,7 +109,7 @@ void drawFauxClipPath(float cPointX, float cPointY){
     strokeWeight(4);
     noFill();
     ellipseMode(RADIUS);
-    ellipse(cPointX, cPointY, outerRadius, outerRadius);
+    ellipse(cPoint.x, cPoint.y, outerRadius, outerRadius);
 
   }
     
@@ -179,26 +117,27 @@ void drawFauxClipPath(float cPointX, float cPointY){
 
 
 // the small white area in the center of side B (artwork)
-void drawCentrePiece(float cPointX, float cPointY){
+void drawCentrePiece(PVector cPoint){
  noStroke(); 
  fill(255);
  ellipseMode(RADIUS);
- ellipse(cPointX, cPointY, 60.0, 60.0);
+ ellipse(cPoint.x, cPoint.y, 60.0, 60.0);
 
 }
 
 
-void drawOutlines(float centrePoint){
+void drawOutlines(PVector centrePoint){
  drawEllipse(centrePoint, outerRadius, outer);
  drawEllipse(centrePoint, innerRadius, inner);
  if (crossHair){
-   drawCrossHair(centrePoint, centrePoint, innerRadius/2);
+   drawCrossHair(centrePoint, innerRadius/2);
  }
 
 }
 
 
-// SIDE A 
+/*    S I D E   A    */
+
 
 void drawForcedBackground(){
  fill(250);
@@ -220,7 +159,7 @@ void drawDescription(){
 }
 
 
-// SHARED FUNCTIONS
+/*     S H A R E D  F U N C T I O N S    */
 
 
 void drawTrackList(String SIDE){  
@@ -270,7 +209,7 @@ void drawBackgroundForTracknames(float x1, float y1, float lineHeight){
       ellipse(x1 + longestText - (boxHeight/2),  y1-textAdjustY, boxHeight, boxHeight); 
 
     }
-    
+
     if (roundedBGmode == 1){     
       // a rect for each line of text
       rect(x1, (y1 - textAdjustY), textWidth(track1B), boxHeight/2);
@@ -291,8 +230,8 @@ void drawBackgroundForTracknames(float x1, float y1, float lineHeight){
     }
     
   }
-  else{  // no fx , just a blok of colour beneat the text.
-    rect(x1, y1-textAdjustY, longestText, boxHeight); // no fx, just black background.
+  else{  // no fx , just a blok of colour beneath the text.
+    rect(x1, y1-textAdjustY, longestText, boxHeight);
   }
   
 } 
@@ -302,7 +241,7 @@ void drawDAlogo(){
   PShape dalogo = loadShape("da_logo.svg");
   shapeMode(CENTER);
   dalogo.scale(.7);
-  shape(dalogo, 1000, 1610);
+  shape(dalogo, centerSideA.x, 1610);
 
 }
 
@@ -314,28 +253,27 @@ void drawText(String mString, float dX, float dY, color tCol){
 }
 
 
-void drawCrossHair(float centrePointX, float centrePointY, float hairLength){
+void drawCrossHair(PVector centrePoint, float hairLength){
   stroke(130);
   strokeWeight(2);
-  line(centrePointX, centrePointY+hairLength, centrePointX, centrePointY-hairLength);
-  line(centrePointX-hairLength, centrePointY, centrePointX+hairLength, centrePointY);
+  line(centrePoint.x, centrePoint.y + hairLength, centrePoint.x, centrePoint.y - hairLength);
+  line(centrePoint.x -hairLength, centrePoint.y, centrePoint.x + hairLength, centrePoint.y);
   noStroke(); // reset to defaults
     
 }
 
 
-void drawEllipse(float centrePoint, float tRadius, boolean tDrawStroke){
- if (tDrawStroke){
+void drawEllipse(PVector centrePoint, float mainRadius, boolean drawStroke){
+ if (drawStroke){
     stroke(150, 150, 255);
     strokeWeight(4);
-
  }
  else{  
    noStroke();
  }
  noFill();
  ellipseMode(RADIUS);
- ellipse(centrePoint, centrePoint, tRadius, tRadius);
+ ellipse(centrePoint.x, centrePoint.y, mainRadius, mainRadius);
  noStroke(); // reset to defaults
 
 }
@@ -365,6 +303,104 @@ void openPDF(String albumName){
 }
   
   
+String getRandomImageName(){
+  String[] imageNameArray = new String[2];
+  imageNameArray[0] = "shape_005_03.png";
+  imageNameArray[1] = "shape_005_03b.png";
+  // etc..
+  // etc..
+  int arrayLength = imageNameArray.length;
+  Random generator = new Random();
+  int randomIndex = generator.nextInt(arrayLength);
+  return imageNameArray[randomIndex];    
+
+}
 
 
+void rotateImage(PImage img){
+  pushMatrix();
+    translate(centerSideB.x, centerSideB.y);
+    float randomRotation = random(0, TWO_PI);
+    print("\ncurrent rotation: " + str(randomRotation));
+    rotate(randomRotation);  
+    image(img, 0, 0);
+  popMatrix();
 
+}
+
+
+void setRandomTint(){
+  Random tintR = new Random();
+  Random tintG = new Random();
+  Random tintB = new Random();
+  int rTintR = tintR.nextInt(156) + 100;
+  int rTintG = tintR.nextInt(156) + 100;
+  int rTintB = tintR.nextInt(156) + 100;
+  tint(rTintR, rTintG, rTintB);
+      
+  print("\n"); // in case it's cool
+  print(str(rTintR) + "," + str(rTintG) + "," + str(rTintB));
+  
+}
+
+
+void printImageStats(PImage img){
+  print("using image name " + selectedImageName + "\n");  
+  print("image width: " + img.width + ", " + "image height: " + img.height);
+    
+}
+
+
+PVector getRandomPosition(PImage img){
+    imageMode(CORNER);
+    float xVariation = (img.width - 2000);
+    float yVariation = (img.height - 2000);
+    float x = random(2000, 2000-xVariation);
+    float y = random(0, -yVariation);
+    return new PVector(x, y);
+
+}
+
+
+String getImageName(){
+  String imageName = "shape_005_03.png";
+      
+  if (randomImage){
+    imageName = getRandomImageName();
+  }
+  return imageName;
+
+}
+
+
+void doTint(){
+  if (semiRandomTintFX){
+    setRandomTint();
+  }else{
+    noTint();
+  }
+
+}
+
+
+PImage getImage(){
+  imageMode(CENTER);
+  String imageName = getImageName();
+  doTint();
+  selectedImageName = imageName;
+  return loadImage(imageName);
+  
+}
+
+
+void performTransformsAndDraw(PVector rasterPos, PImage img){
+  if (randomImagePosition){
+    rasterPos = getRandomPosition(img);
+    image(img, rasterPos.x, rasterPos.y);  
+  }
+        
+  if (randomImageRotate){
+      rotateImage(img);
+  }
+
+}
