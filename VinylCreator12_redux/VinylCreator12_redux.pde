@@ -66,40 +66,36 @@ void drawFauxClipPath(PVector cPoint){
   
   fill(255);
   noStroke();
-      
-  beginShape();  //top right, first quadrant goes clockwise.
-    vertex(3500, 0);
-    vertex(4000, 0);
-    vertex(4000, 500);
-    vertex(3500, 0);
-  endShape();
   
+  // leftside  
   beginShape();
-    vertex(4000, 1500);
-    vertex(4000, 2000);
-    vertex(3500, 2000);
-    vertex(4000, 1500);
-  endShape();
-  
-  beginShape();
-    vertex(2500, 2000);
-    vertex(2000, 2000);
-    vertex(2000, 1500);
-    vertex(2500, 2000);
-  endShape();
-  
-  beginShape();
-    vertex(2500, 0);
-    vertex(2000, 500);
+    for (int i = 90; i <= 270; i++){
+      PVector coordinate = getVectorFromDegree(i);
+      vertex(coordinate.x + centerSideB.x, coordinate.y + centerSideB.y); 
+    } 
+    vertex(centerSideB.x, 0);
     vertex(2000, 0);
-    vertex(2500, 0);
-  endShape();
+    vertex(2000, 2000);
+    vertex(centerSideB.x, 2000);
+  endShape(CLOSE);
 
+  // rightside
+  beginShape();
+    for (int i = 90; i >= -90; i--){
+      PVector coordinate = getVectorFromDegree(i);
+      vertex(coordinate.x + centerSideB.x, coordinate.y + centerSideB.y); 
+    } 
+    vertex(centerSideB.x, 0);
+    vertex(4000, 0);
+    vertex(4000, 2000);
+    vertex(centerSideB.x, 2000);
+  endShape(CLOSE);
+  
   // add faux clipping mask to snuggly clip the outline
   noFill();
-  strokeWeight(180);
+  strokeWeight(20);
   stroke(255);
-  float cRad = 2142;
+  float cRad = 1985;
   ellipse(cPoint.x, cPoint.y, cRad, cRad);
    
      
@@ -404,3 +400,10 @@ void performTransformsAndDraw(PVector rasterPos, PImage img){
   }
 
 }
+
+
+PVector getVectorFromDegree(int i) {
+  PVector coordinate = new PVector(cos(radians(i))*990, sin(radians(i))*990);
+  return coordinate;
+}
+ 

@@ -15,7 +15,6 @@ boolean drawSideBClipLimits = false;
 PVector centerSideB = new PVector(3000.0, 1000.0);
 PVector centerSideA = new PVector(1000.0, 1000.0);
 
-
 // text (track names)
 String albumName = "Wicked_Batch_of_a_Test" + ".pdf";
 String track1A = "1A. Via Osmosis (Original Mix) 3:42";
