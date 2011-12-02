@@ -149,7 +149,9 @@ void drawTrackList(String SIDE){
   
 }
 
-// not very friendly if i want to make both A and B potentially take a backgroud under the trackname.
+
+// not very friendly if i want to make both A and B potentially 
+// take a background under the trackname.
 void drawBackgroundForTracknames(float x1, float y1, float lineHeight){
   float boxHeight = 178;
   noStroke();    
