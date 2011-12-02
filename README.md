@@ -1,8 +1,12 @@
 ![10ProcessingSketches]  (https://github.com/zeffii/10ProcessingSketches/raw/master/ComboVersion_10_v2.png)
 
     Usage  
-    - to be written  
-
+    - read the design principles first (useful for first time designers)
+	- view bleed on/off  
+	- view grid on/off
+	- modify grid settings
+	- snap element to closest grid component
+	
     Things to avoid  
     - to be written  
 
@@ -19,7 +23,7 @@ Milestone 1
   
 Milestone 2  
 [x] create pdf  
+[x] including dashed lines and some type of optimal clippath  
 [ ] using openGL drawing commands instead  
-[ ] including dashed lines and some type of optimal clippath  
 [ ] get generative 3d artwork going on
 [ ] draw to window, modify some variables and then write pdf

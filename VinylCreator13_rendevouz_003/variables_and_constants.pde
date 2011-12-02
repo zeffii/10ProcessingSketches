@@ -27,14 +27,17 @@ String track2B = "2B. Insufficient Parameters (boolean Mix) 5:13";
 // text production and license details
 String multilineString1 = "All tracks are licensed to Artificial recordings, additional mastering";
 String multilineString2 = "done by Totally Ridiculous Dynamics at Trendy studios";
-float descriptionYPos = 1730;
+float descriptionYPos = 1700;
+float logoCenterY = 1597;
 
 // outline for design, printing aids
-boolean outer = true;
+boolean outer = false;
 boolean inner = false;
 boolean crossHair = true;
 float outerRadius = 980;
 float innerRadius = 60;
+float bleedRadius = 924.53;         // 53 = 980   50 = 
+boolean BLEED_VISIBLE = true;
 
 // random image properties
 boolean randomImage = false; // false; //true;

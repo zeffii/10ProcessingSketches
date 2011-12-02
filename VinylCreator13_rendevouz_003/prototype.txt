@@ -1,0 +1,25 @@
+this text file is not finished or spellchecked.
+
+:: functions
+- draw grids (allow variatons)
+- select font (allow multiple)
+
+
+
+:: design guide
+These suggestions are intended to inform. Take your time to read them and pick appart the provided examples to find out which of the points make sense to you and be conscious about which suggestions you choose to ignore. 
+
+Design Principles:
+- use few different typefaces (fonts) instead of more. Use less use one! 
+- use at most 2 different type heights ( font size ) consider a simplified ratio.
+- think hard before mixing bold and regular versions of the same face, why?
+- consider using a grid to structure the layout.
+- check your spelling, grammar and punctuation, don't rely on the printer. 
+- get other people to spellcheck it too, you don't want 5000 typos on a release :)
+- take time to inform yourself about colour combinations, colour-schemes.
+
+Application Principles:
+- use the grid view, G will show it or hide it.
+- modify the grid parameters ( should be modifyable using key combos )
+- use snap to align items (they will match up with the closest snap points)
+- 

@@ -5,6 +5,9 @@ Released under MIT license.
 
 30 Nov. split into seperate files for readability.
 1 Dec.  refactor and code rearrangement.
+
+read the included prototype.txt for the list of things
+i want to add to make this a full program.
 */
 
 import processing.pdf.*;
@@ -32,6 +35,7 @@ void draw(){
   drawFauxClipPath(centerSideB);  
   drawTrackList("B");
   drawCrossHair(centerSideB, innerRadius/2);  
+  drawBleed(centerSideB, color(250, 250, 250));
    
   // side A
   drawForcedBackground();
@@ -39,6 +43,8 @@ void draw(){
   drawTrackList("A");  
   drawDAlogo();
   drawDescription();
+  drawFauxClipPath(centerSideA);
+  drawBleed(centerSideA, color(20, 20, 255));
   
   print("\nDone\n");
   exit();
@@ -60,17 +66,6 @@ void drawRaster(PVector rasterPos){
   printImageStats(img);
 }
 
-
-void drawFauxClipPath(PVector cPoint){
-  // first loose outer fit, then snug tight final fit. 
-  drawLoosePath();
-  drawSnugPath(cPoint);
-     
-  if (drawSideBClipLimits){  
-    drawOuterBounds(cPoint);
-  }
-    
-}
 
 
 // the small white area in the center of side B (artwork)
@@ -181,7 +176,7 @@ void drawDAlogo(){
   PShape dalogo = loadShape("da_logo.svg");
   shapeMode(CENTER);
   dalogo.scale(.7);
-  shape(dalogo, centerSideA.x, 1610);
+  shape(dalogo, centerSideA.x, logoCenterY);
 
 }
 
@@ -352,8 +347,26 @@ PVector getVectorFromDegree(int i) {
 
 }
 
+PVector getVectorFromDegreeAndRadius(int i, float rad) {
+  PVector coordinate = new PVector(cos(radians(i))*rad, sin(radians(i))*rad);
+  return coordinate;
 
-void drawLoosePath(){
+}
+
+
+void drawFauxClipPath(PVector cPoint){
+  // first loose outer fit, then snug tight final fit. 
+  drawLoosePath(cPoint);
+  drawSnugPath(cPoint);
+     
+  if (drawSideBClipLimits){  
+    drawOuterBounds(cPoint);
+  }
+    
+}
+
+
+void drawLoosePath(PVector cPoint){
   fill(255);
   noStroke();
   
@@ -361,26 +374,47 @@ void drawLoosePath(){
   beginShape();
     for (int i = 90; i <= 270; i++){
       PVector coordinate = getVectorFromDegree(i);
-      vertex(coordinate.x + centerSideB.x, coordinate.y + centerSideB.y); 
+      vertex(coordinate.x + cPoint.x, coordinate.y + cPoint.y); 
     } 
-    vertex(centerSideB.x, 0);
-    vertex(2000, 0);
-    vertex(2000, 2000);
-    vertex(centerSideB.x, 2000);
+    vertex(cPoint.x, 0);
+    vertex(cPoint.x-1000, 0);
+    vertex(cPoint.x-1000, 2000);
+    vertex(cPoint.x, 2000);
   endShape(CLOSE);
 
   // rightside
   beginShape();
     for (int i = 90; i >= -90; i--){
       PVector coordinate = getVectorFromDegree(i);
-      vertex(coordinate.x + centerSideB.x, coordinate.y + centerSideB.y); 
+      vertex(coordinate.x + cPoint.x, coordinate.y + cPoint.y); 
     } 
-    vertex(centerSideB.x, 0);
-    vertex(4000, 0);
-    vertex(4000, 2000);
-    vertex(centerSideB.x, 2000);
+    vertex(cPoint.x, 0);
+    vertex(cPoint.x+1000, 0);
+    vertex(cPoint.x+1000, 2000);
+    vertex(cPoint.x, 2000);
   endShape(CLOSE);
 
+}
+
+
+void drawBleed(PVector cPoint, color bColor){
+   noFill();
+   stroke(bColor);
+   strokeWeight(2);
+
+   for (int i = 0; i < 360-1; i+=2){
+     if (i%2 == 0){
+       stroke(bColor);
+     }else{
+       noStroke();  
+     }
+     PVector coord = getVectorFromDegreeAndRadius(i, bleedRadius);
+     PVector coord2 = getVectorFromDegreeAndRadius(i+1, bleedRadius);
+     line(coord.x + cPoint.x, coord.y + cPoint.y, coord2.x + cPoint.x, coord2.y + cPoint.y);
+     
+   }
+  
+  
 }
 
 
@@ -388,7 +422,9 @@ void drawSnugPath(PVector cPoint){
   noFill();
   strokeWeight(20);
   stroke(255);
-  float cRad = 1985;
+  float cRad = 1984;
+  // float cRad = 300;
+  ellipseMode(CENTER);
   ellipse(cPoint.x, cPoint.y, cRad, cRad);
 
 } 
