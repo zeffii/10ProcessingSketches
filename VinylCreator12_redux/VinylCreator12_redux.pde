@@ -247,7 +247,7 @@ void openPDF(String albumName){
      // apparently this isn't cosher, but while developling i'm ok with this.
       Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + pathToFile);
       
-      // ideally one uses these two lines insteaf of the Runtime line above.
+      // ideally one uses these two lines instead of the Runtime line above.
       // File myFile = new File(pathToFile);
       // Desktop.getDesktop().open(myFile);
  
