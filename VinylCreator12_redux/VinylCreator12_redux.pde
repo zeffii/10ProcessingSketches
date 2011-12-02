@@ -130,7 +130,6 @@ void drawTrackList(String SIDE){
     color textColour = color(80, 80, 80);
     drawText(track1A, x1, y1, textColour);
     drawText(track2A, x1, y1+lineHeight, textColour);
-
   }
   
   if (SIDE.equals("B")){
@@ -138,13 +137,13 @@ void drawTrackList(String SIDE){
     
     boolean BGNEEDED = true;
     if (BGNEEDED){
-      drawBackgroundForTracknames(x1, y1, lineHeight); 
+      PVector BGCoordinate = new PVector(x1,y1);
+      drawBackgroundForTracknames(BGCoordinate, lineHeight); 
     }
     
     color textColour = color(250, 250, 250);
     drawText(track1B, x1, y1+(lineHeight*0), textColour);
     drawText(track2B, x1, y1+(lineHeight*1), textColour);
-
   }
   
 }
@@ -152,45 +151,27 @@ void drawTrackList(String SIDE){
 
 // not very friendly if i want to make both A and B potentially 
 // take a background under the trackname.
-void drawBackgroundForTracknames(float x1, float y1, float lineHeight){
-  float boxHeight = 178;
+void drawBackgroundForTracknames(PVector co, float lineHeight){
   noStroke();    
   fill(0);
-  float textAdjustY = typeHeight+3;
   float longestText = max(textWidth(track2B), textWidth(track1B)); 
   ellipseMode(CORNER);
   
   if (useRoundedTextBackground){
     
     if (roundedBGmode == 0){
-      rect(x1, y1-textAdjustY, longestText, boxHeight);
-      ellipse(x1 - (boxHeight/2), y1-textAdjustY, boxHeight, boxHeight);     
-      ellipse(x1 + longestText - (boxHeight/2),  y1-textAdjustY, boxHeight, boxHeight); 
-
+      rect(co.x, co.y - textAdjustY, longestText, boxHeight);
+      ellipse(co.x - (boxHeight/2), co.y - textAdjustY, boxHeight, boxHeight);     
+      ellipse(co.x + longestText - (boxHeight/2),  co.y - textAdjustY, boxHeight, boxHeight); 
     }
-
+    
     if (roundedBGmode == 1){     
-      // a rect for each line of text
-      rect(x1, (y1 - textAdjustY), textWidth(track1B), boxHeight/2);
-      rect(x1, (y1 + lineHeight - textAdjustY), textWidth(track2B), boxHeight/2);
-      float ellipseRadius = (y1+lineHeight-textAdjustY + (boxHeight/2)) - (y1 - textAdjustY);
-   
-      // ellipse on the left is full size
-      ellipse(x1 - (ellipseRadius/2), y1-textAdjustY, ellipseRadius, ellipseRadius); // left
-      
-      // ellipse (2x) on the right are relative to the height of their rect.
-      float r1X = (x1 + textWidth(track1B) - boxHeight/4);
-      float r1Y = y1 - textAdjustY;
-      float r2X = (x1 + textWidth(track2B) - boxHeight/4);
-      float r2Y = y1 + lineHeight - textAdjustY;
-      ellipse(r1X, r1Y, boxHeight/2, boxHeight/2); //right
-      ellipse(r2X, r2Y, boxHeight/2, boxHeight/2); //right
-
+      drawSpecialBGmode(co, lineHeight);
     }
     
   }
   else{  // no fx , just a blok of colour beneath the text.
-    rect(x1, y1-textAdjustY, longestText, boxHeight);
+    rect(co.x, co.y - textAdjustY, longestText, boxHeight);
   }
   
 } 
@@ -420,5 +401,26 @@ void drawOuterBounds(PVector cPoint){
   noFill();
   ellipseMode(RADIUS);
   ellipse(cPoint.x, cPoint.y, outerRadius, outerRadius);
+
+}
+
+
+void drawSpecialBGmode(PVector co, float lineHeight){
+
+  // a rect for each line of text
+  rect(co.x, (co.y - textAdjustY), textWidth(track1B), boxHeight/2);
+  rect(co.x, (co.y + lineHeight - textAdjustY), textWidth(track2B), boxHeight/2);
+  float ellipseRadius = (co.y + lineHeight-textAdjustY + (boxHeight/2)) - (co.y - textAdjustY);
+ 
+  // ellipse on the left is full size
+  ellipse(co.x - (ellipseRadius / 2), co.y - textAdjustY, ellipseRadius, ellipseRadius); // left
+  
+  // ellipse (2x) on the right are relative to the height of their rect.
+  float r1X = (co.x + textWidth(track1B) - boxHeight/4);
+  float r1Y = co.y - textAdjustY;
+  float r2X = (co.x + textWidth(track2B) - boxHeight/4);
+  float r2Y = co.y + lineHeight - textAdjustY;
+  ellipse(r1X, r1Y, boxHeight/2, boxHeight/2); //right
+  ellipse(r2X, r2Y, boxHeight/2, boxHeight/2); //right
 
 }

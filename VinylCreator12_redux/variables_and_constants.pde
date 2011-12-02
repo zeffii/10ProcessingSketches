@@ -4,6 +4,7 @@ String path = "";
 // typographic constants
 int typeHeight = 65; // for copy text
 int typeDescriptionHeight = 40;  // for information
+float textAdjustY = typeHeight + 3;
 float lineRatio = 1.167;
 float leftAlignX = 274.0;
 float typeInitY = 1370.0;
@@ -14,6 +15,7 @@ int roundedBGmode = 1;  // 0 or 1 are slightly different flavours, ignored if us
 boolean drawSideBClipLimits = false;
 PVector centerSideB = new PVector(3000.0, 1000.0);
 PVector centerSideA = new PVector(1000.0, 1000.0);
+float boxHeight = 178;  // this should instead be determined by typeHeight! TODO.
 
 // text (track names)
 String albumName = "Wicked_Batch_of_a_Test" + ".pdf";
