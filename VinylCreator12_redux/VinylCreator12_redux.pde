@@ -92,11 +92,7 @@ void drawFauxClipPath(PVector cPoint){
   endShape(CLOSE);
   
   // add faux clipping mask to snuggly clip the outline
-  noFill();
-  strokeWeight(20);
-  stroke(255);
-  float cRad = 1985;
-  ellipse(cPoint.x, cPoint.y, cRad, cRad);
+  drawSnugPath(cPoint);
    
      
   if (drawSideBClipLimits){  
@@ -405,5 +401,15 @@ void performTransformsAndDraw(PVector rasterPos, PImage img){
 PVector getVectorFromDegree(int i) {
   PVector coordinate = new PVector(cos(radians(i))*990, sin(radians(i))*990);
   return coordinate;
+
 }
- 
+
+
+void drawSnugPath(PVector cPoint){
+  noFill();
+  strokeWeight(20);
+  stroke(255);
+  float cRad = 1985;
+  ellipse(cPoint.x, cPoint.y, cRad, cRad);
+
+} 
