@@ -36,6 +36,7 @@ void draw(){
   drawTrackList("B");
   drawCrossHair(centerSideB, innerRadius/2);  
   drawBleed(centerSideB, color(250, 250, 250));
+  drawGrid(centerSideB);
    
   // side A
   drawForcedBackground();
@@ -44,8 +45,10 @@ void draw(){
   drawDAlogo();
   drawDescription();
   drawFauxClipPath(centerSideA);
+  drawCrossHair(centerSideA, innerRadius/2);
   drawBleed(centerSideA, color(20, 20, 255));
-  
+  drawGrid(centerSideA);
+    
   print("\nDone\n");
   exit();
   
@@ -67,24 +70,9 @@ void drawRaster(PVector rasterPos){
 }
 
 
-
-// the small white area in the center of side B (artwork)
-void drawCentrePiece(PVector cPoint){
- noStroke(); 
- fill(255);
- ellipseMode(RADIUS);
- ellipse(cPoint.x, cPoint.y, 60.0, 60.0);
-
-}
-
-
 void drawOutlines(PVector centrePoint){
  drawEllipse(centrePoint, outerRadius, outer);
  drawEllipse(centrePoint, innerRadius, inner);
- if (crossHair){
-   drawCrossHair(centrePoint, innerRadius/2);
- }
-
 }
 
 
@@ -95,19 +83,15 @@ void drawForcedBackground(){
  fill(250);
  noStroke();
  rect(0,0,2000,2000);
-  
 }
 
 
 void drawDescription(){
-  float lineDescriptionHeight = float(typeDescriptionHeight) * lineRatio;
   textFont(createFont("DroidSans", typeDescriptionHeight));
-    
+  textAlign(CENTER);  
   color textColour = color(80, 80, 80);
-  textAlign(CENTER);
-  drawText(multilineString1, 1000, descriptionYPos, textColour);
-  drawText(multilineString2, 1000, descriptionYPos + lineDescriptionHeight, textColour);
-
+  drawText(multilineString1, new PVector(1000, descriptionYPos), textColour);
+  drawText(multilineString2, new PVector(1000, descriptionYPos + lineDescriptionHeight), textColour);
 }
 
 
@@ -117,30 +101,26 @@ void drawDescription(){
 void drawTrackList(String SIDE){  
   float x1 = leftAlignX;
   float y1 = typeInitY;
-  float lineHeight = float(typeHeight) * lineRatio;
   textFont(createFont("DroidSans", typeHeight));
   
   textAlign(LEFT);
   if (SIDE.equals("A")){
     color textColour = color(80, 80, 80);
-    drawText(track1A, x1, y1, textColour);
-    drawText(track2A, x1, y1+lineHeight, textColour);
+    drawText(track1A, new PVector(x1, y1), textColour);
+    drawText(track2A, new PVector(x1, y1+lineHeight), textColour);
   }
   
   if (SIDE.equals("B")){
     x1 += 2000;
-    
-    boolean BGNEEDED = true;
     if (BGNEEDED){
       PVector BGCoordinate = new PVector(x1,y1);
       drawBackgroundForTracknames(BGCoordinate, lineHeight); 
     }
     
     color textColour = color(250, 250, 250);
-    drawText(track1B, x1, y1+(lineHeight*0), textColour);
-    drawText(track2B, x1, y1+(lineHeight*1), textColour);
+    drawText(track1B, new PVector(x1, y1+(lineHeight*0)), textColour);
+    drawText(track2B, new PVector(x1, y1+(lineHeight*1)), textColour);
   }
-  
 }
 
 
@@ -168,7 +148,6 @@ void drawBackgroundForTracknames(PVector co, float lineHeight){
   else{  // no fx , just a blok of colour beneath the text.
     rect(co.x, co.y - textAdjustY, longestText, boxHeight);
   }
-  
 } 
 
 
@@ -177,24 +156,23 @@ void drawDAlogo(){
   shapeMode(CENTER);
   dalogo.scale(.7);
   shape(dalogo, centerSideA.x, logoCenterY);
-
 }
 
 
-void drawText(String mString, float dX, float dY, color tCol){
+void drawText(String mString, PVector co, color tCol){
  fill(tCol);
- text(mString, dX, dY);
-
+ text(mString, co.x, co.y);
 }
 
 
 void drawCrossHair(PVector centrePoint, float hairLength){
-  stroke(130);
-  strokeWeight(2);
-  line(centrePoint.x, centrePoint.y + hairLength, centrePoint.x, centrePoint.y - hairLength);
-  line(centrePoint.x -hairLength, centrePoint.y, centrePoint.x + hairLength, centrePoint.y);
-  noStroke(); // reset to defaults
-    
+  if (crossHair){
+    stroke(130);
+    strokeWeight(2);
+    line(centrePoint.x, centrePoint.y + hairLength, centrePoint.x, centrePoint.y - hairLength);
+    line(centrePoint.x -hairLength, centrePoint.y, centrePoint.x + hairLength, centrePoint.y);
+    noStroke(); // reset to defaults
+  }
 }
 
 
@@ -210,7 +188,6 @@ void drawEllipse(PVector centrePoint, float mainRadius, boolean drawStroke){
  ellipseMode(RADIUS);
  ellipse(centrePoint.x, centrePoint.y, mainRadius, mainRadius);
  noStroke(); // reset to defaults
-
 }
 
 
@@ -232,9 +209,7 @@ void openPDF(String albumName){
    } catch (IOException ex) {
         print("no application registered for PDFs");
    }
-   
-  }
-   
+ }
 }
   
   
@@ -248,7 +223,6 @@ String getRandomImageName(){
   Random generator = new Random();
   int randomIndex = generator.nextInt(arrayLength);
   return imageNameArray[randomIndex];    
-
 }
 
 
@@ -260,7 +234,6 @@ void rotateImage(PImage img){
     rotate(randomRotation);  
     image(img, 0, 0);
   popMatrix();
-
 }
 
 
@@ -275,14 +248,12 @@ void setRandomTint(){
       
   print("\n"); // in case it's cool
   print(str(rTintR) + "," + str(rTintG) + "," + str(rTintB));
-  
 }
 
 
 void printImageStats(PImage img){
   print("using image name " + selectedImageName + "\n");  
   print("image width: " + img.width + ", " + "image height: " + img.height);
-    
 }
 
 
@@ -293,7 +264,6 @@ PVector getRandomPosition(PImage img){
     float x = random(2000, 2000-xVariation);
     float y = random(0, -yVariation);
     return new PVector(x, y);
-
 }
 
 
@@ -304,7 +274,6 @@ String getImageName(){
     imageName = getRandomImageName();
   }
   return imageName;
-
 }
 
 
@@ -314,7 +283,6 @@ void doTint(){
   }else{
     noTint();
   }
-
 }
 
 
@@ -324,7 +292,6 @@ PImage getImage(){
   doTint();
   selectedImageName = imageName;
   return loadImage(imageName);
-  
 }
 
 
@@ -337,20 +304,18 @@ void performTransformsAndDraw(PVector rasterPos, PImage img){
   if (randomImageRotate){
       rotateImage(img);
   }
-
 }
 
 
 PVector getVectorFromDegree(int i) {
   PVector coordinate = new PVector(cos(radians(i))*990, sin(radians(i))*990);
   return coordinate;
-
 }
+
 
 PVector getVectorFromDegreeAndRadius(int i, float rad) {
   PVector coordinate = new PVector(cos(radians(i))*rad, sin(radians(i))*rad);
   return coordinate;
-
 }
 
 
@@ -362,7 +327,6 @@ void drawFauxClipPath(PVector cPoint){
   if (drawSideBClipLimits){  
     drawOuterBounds(cPoint);
   }
-    
 }
 
 
@@ -373,7 +337,7 @@ void drawLoosePath(PVector cPoint){
   // leftside  
   beginShape();
     for (int i = 90; i <= 270; i++){
-      PVector coordinate = getVectorFromDegree(i);
+      PVector coordinate = getVectorFromDegreeAndRadius(i, 990);
       vertex(coordinate.x + cPoint.x, coordinate.y + cPoint.y); 
     } 
     vertex(cPoint.x, 0);
@@ -385,7 +349,7 @@ void drawLoosePath(PVector cPoint){
   // rightside
   beginShape();
     for (int i = 90; i >= -90; i--){
-      PVector coordinate = getVectorFromDegree(i);
+      PVector coordinate = getVectorFromDegreeAndRadius(i, 990);
       vertex(coordinate.x + cPoint.x, coordinate.y + cPoint.y); 
     } 
     vertex(cPoint.x, 0);
@@ -393,7 +357,6 @@ void drawLoosePath(PVector cPoint){
     vertex(cPoint.x+1000, 2000);
     vertex(cPoint.x, 2000);
   endShape(CLOSE);
-
 }
 
 
@@ -411,10 +374,7 @@ void drawBleed(PVector cPoint, color bColor){
      PVector coord = getVectorFromDegreeAndRadius(i, bleedRadius);
      PVector coord2 = getVectorFromDegreeAndRadius(i+1, bleedRadius);
      line(coord.x + cPoint.x, coord.y + cPoint.y, coord2.x + cPoint.x, coord2.y + cPoint.y);
-     
    }
-  
-  
 }
 
 
@@ -426,7 +386,6 @@ void drawSnugPath(PVector cPoint){
   // float cRad = 300;
   ellipseMode(CENTER);
   ellipse(cPoint.x, cPoint.y, cRad, cRad);
-
 } 
 
 
@@ -437,7 +396,6 @@ void drawOuterBounds(PVector cPoint){
   noFill();
   ellipseMode(RADIUS);
   ellipse(cPoint.x, cPoint.y, outerRadius, outerRadius);
-
 }
 
 
@@ -458,5 +416,29 @@ void drawSpecialBGmode(PVector co, float lineHeight){
   float r2Y = co.y + lineHeight - textAdjustY;
   ellipse(r1X, r1Y, boxHeight/2, boxHeight/2); //right
   ellipse(r2X, r2Y, boxHeight/2, boxHeight/2); //right
-
 }
+
+
+void drawGrid(PVector cPoint){
+  
+  float leftX = cPoint.x - 980;
+  float topY = cPoint.y - 980;
+  float bottomY = cPoint.y + 980;
+  
+  strokeWeight(1);
+  stroke(gridColor);
+
+  float rightMost = leftX + totalWidth;
+  for (int j = 0; j <= gridRows; j++){
+    float yvar = gridRowHeight*j;
+    line(leftX, topY + yvar , rightMost, topY + yvar);
+  }
+  
+  for (int i = 0; i <= gridCols; i++){
+    line(leftX, topY, leftX, bottomY);
+    leftX += gridColWidth;  
+    
+  }
+  
+}
+
