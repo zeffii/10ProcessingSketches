@@ -62,47 +62,12 @@ void drawRaster(PVector rasterPos){
 
 
 void drawFauxClipPath(PVector cPoint){
-  // the ugly way.. but it got the job done.
-  
-  fill(255);
-  noStroke();
-  
-  // leftside  
-  beginShape();
-    for (int i = 90; i <= 270; i++){
-      PVector coordinate = getVectorFromDegree(i);
-      vertex(coordinate.x + centerSideB.x, coordinate.y + centerSideB.y); 
-    } 
-    vertex(centerSideB.x, 0);
-    vertex(2000, 0);
-    vertex(2000, 2000);
-    vertex(centerSideB.x, 2000);
-  endShape(CLOSE);
-
-  // rightside
-  beginShape();
-    for (int i = 90; i >= -90; i--){
-      PVector coordinate = getVectorFromDegree(i);
-      vertex(coordinate.x + centerSideB.x, coordinate.y + centerSideB.y); 
-    } 
-    vertex(centerSideB.x, 0);
-    vertex(4000, 0);
-    vertex(4000, 2000);
-    vertex(centerSideB.x, 2000);
-  endShape(CLOSE);
-  
-  // add faux clipping mask to snuggly clip the outline
+  // first loose outer fit, then snug tight final fit. 
+  drawLoosePath();
   drawSnugPath(cPoint);
-   
      
   if (drawSideBClipLimits){  
-    // the white underneath should not be visible inside the green boundary.
-    stroke(0, 255, 0);
-    strokeWeight(4);
-    noFill();
-    ellipseMode(RADIUS);
-    ellipse(cPoint.x, cPoint.y, outerRadius, outerRadius);
-
+    drawOuterBounds(cPoint);
   }
     
 }
@@ -405,6 +370,37 @@ PVector getVectorFromDegree(int i) {
 }
 
 
+void drawLoosePath(){
+  fill(255);
+  noStroke();
+  
+  // leftside  
+  beginShape();
+    for (int i = 90; i <= 270; i++){
+      PVector coordinate = getVectorFromDegree(i);
+      vertex(coordinate.x + centerSideB.x, coordinate.y + centerSideB.y); 
+    } 
+    vertex(centerSideB.x, 0);
+    vertex(2000, 0);
+    vertex(2000, 2000);
+    vertex(centerSideB.x, 2000);
+  endShape(CLOSE);
+
+  // rightside
+  beginShape();
+    for (int i = 90; i >= -90; i--){
+      PVector coordinate = getVectorFromDegree(i);
+      vertex(coordinate.x + centerSideB.x, coordinate.y + centerSideB.y); 
+    } 
+    vertex(centerSideB.x, 0);
+    vertex(4000, 0);
+    vertex(4000, 2000);
+    vertex(centerSideB.x, 2000);
+  endShape(CLOSE);
+
+}
+
+
 void drawSnugPath(PVector cPoint){
   noFill();
   strokeWeight(20);
@@ -413,3 +409,14 @@ void drawSnugPath(PVector cPoint){
   ellipse(cPoint.x, cPoint.y, cRad, cRad);
 
 } 
+
+
+void drawOuterBounds(PVector cPoint){
+  // the white underneath should not be visible inside the green boundary.
+  stroke(0, 255, 0);
+  strokeWeight(4);
+  noFill();
+  ellipseMode(RADIUS);
+  ellipse(cPoint.x, cPoint.y, outerRadius, outerRadius);
+
+}
