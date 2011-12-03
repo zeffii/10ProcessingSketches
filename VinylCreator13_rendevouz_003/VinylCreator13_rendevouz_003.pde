@@ -33,20 +33,20 @@ void draw() {
   drawRaster(centerSideB);
   drawFauxClipPath(centerSideB);  
   drawTrackList("B");
-  drawCrossHair(centerSideB);  
-  drawBleed(centerSideB, color(250, 250, 250));
-  drawGrid(centerSideB);
+  if (crosshairVisible) drawCrossHair(centerSideB);  
+  if (bleedVisible) drawBleed(centerSideB, color(250, 250, 250));
+  if (gridVisible) drawGrid(centerSideB);
 
   // side A
   drawForcedBackground();
-  drawOutlines(centerSideA);
+  if (outerLimitsVisible) drawOutlines(centerSideA);
   drawTrackList("A");  
   drawDAlogo();
   drawDescription();
   drawFauxClipPath(centerSideA);
-  drawCrossHair(centerSideA);
-  drawBleed(centerSideA, color(20, 20, 255));
-  drawGrid(centerSideA);
+  if (crosshairVisible) drawCrossHair(centerSideA);
+  if (bleedVisible) drawBleed(centerSideA, color(20, 20, 255));
+  if (gridVisible) drawGrid(centerSideA);
 
   print("\nDone\n");
   exit();
@@ -69,8 +69,12 @@ void drawRaster(PVector rasterPos) {
 
 
 void drawOutlines(PVector centrePoint) {
-  drawEllipse(centrePoint, outerRadius, outer);
-  drawEllipse(centrePoint, innerRadius, inner);
+  stroke(150, 150, 255);
+  strokeWeight(4);
+  noFill();
+  ellipseMode(RADIUS);
+  ellipse(centrePoint.x, centrePoint.y, outerRadius, outerRadius);
+  noStroke(); // reset to defaults
 }
 
 
@@ -149,10 +153,14 @@ void drawBackgroundForTracknames(PVector co, float lineHeight) {
 
 
 void drawDAlogo() {
+  float scaleAmount = 0.7;
   PShape dalogo = loadShape("da_logo.svg");
-  shapeMode(CENTER);
-  dalogo.scale(.7);
-  shape(dalogo, centerSideA.x, logoCenterY);
+  float logoWidth = dalogo.width * scaleAmount;
+  float logoHeight = dalogo.height * scaleAmount;
+  
+  dalogo.scale(scaleAmount);
+  shapeMode(CORNER);
+  shape(dalogo, centerSideA.x - (logoWidth/2), logoCenterY - (logoHeight/2));
 }
 
 
@@ -163,26 +171,12 @@ void drawText(String mString, PVector co, color tCol) {
 
 
 void drawCrossHair(PVector cPoint) {
-  if (crossHair) {
-    float hLength = crossHairRadius;
-    stroke(130);
-    strokeWeight(2);
-    line(cPoint.x - hLength, cPoint.y - hLength, cPoint.x + hLength, cPoint.y + hLength);
-    line(cPoint.x - hLength, cPoint.y + hLength, cPoint.x + hLength, cPoint.y - hLength);
-    noStroke();
-  }
-}
-
-
-void drawEllipse(PVector centrePoint, float mainRadius, boolean drawStroke) {
-  if (drawStroke) {
-    stroke(150, 150, 255);
-    strokeWeight(4);
-    noFill();
-    ellipseMode(RADIUS);
-    ellipse(centrePoint.x, centrePoint.y, mainRadius, mainRadius);
-    noStroke(); // reset to defaults
-  }
+  float hLength = crossHairRadius;
+  stroke(130);
+  strokeWeight(2);
+  line(cPoint.x - hLength, cPoint.y - hLength, cPoint.x + hLength, cPoint.y + hLength);
+  line(cPoint.x - hLength, cPoint.y + hLength, cPoint.x + hLength, cPoint.y - hLength);
+  noStroke();
 }
 
 
@@ -411,7 +405,7 @@ void drawSpecialBGmode(PVector co, float lineHeight) {
 
 
 void drawGrid(PVector cPoint) {
-
+    
   float leftX = cPoint.x - 980;
   float topY = cPoint.y - 980;
   float bottomY = cPoint.y + 980;
@@ -429,5 +423,6 @@ void drawGrid(PVector cPoint) {
     line(leftX, topY, leftX, bottomY);
     leftX += gridColWidth;
   }
+  
 }
 
