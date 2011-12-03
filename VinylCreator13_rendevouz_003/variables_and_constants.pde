@@ -40,10 +40,11 @@ float logoCenterY = 1597;
 
 // outline for design, printing aids
 boolean outer = false;
-boolean inner = false;
+boolean inner = false;  //remove
 boolean crossHair = true;
 float outerRadius = 980;
 float innerRadius = 60;
+float crossHairRadius = 20.0;
 float bleedRadius = 924.53;         // 53 = 980   50 = 
 boolean BLEED_VISIBLE = true;
 
@@ -60,8 +61,8 @@ String selectedImageName = "";
 // grid drawing 
 float totalWidth = outerRadius * 2;
 float totalHeight = outerRadius * 2;
-int gridRows = 3;
-int gridCols = 8; 
+int gridRows = 10;
+int gridCols = 10; 
 float gridRowHeight = totalHeight / (gridRows);
 float gridColWidth = totalWidth / (gridCols);
 color gridColor = color(244, 0, 30, 130);
