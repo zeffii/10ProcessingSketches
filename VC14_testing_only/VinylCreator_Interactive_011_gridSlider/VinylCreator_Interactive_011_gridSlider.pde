@@ -24,8 +24,8 @@ ColourPicker colGridLeft;
 void setup() {
   
   // init some variables, maybe not the best place?  
-  String[] tNamesA = getTrackNamesA();
-  String[] tNamesB = getTrackNamesB();
+  String[] tNamesA = getTrackNames("SIDE_A.txt");
+  String[] tNamesB = getTrackNames("SIDE_B.txt");
   float textBox1X = 300 - 230;
   float textBox2X = APP_WIDTH - 300 - 230;
   PVector tPosA = new PVector(textBox1X, 370.0);
@@ -209,23 +209,26 @@ void drawConstructionElements(){
 
 
 
-String[] getTrackNamesA(){
+String[] getTrackNames(String fileName){
+
+  // WARNING MY DEAR FRIEND!
+  // if you read this, it means i have not yet implemented a proper
+  // error handling mechanism. poor coding practices ahead. 
   
-  String[] tNames = new String[3];
-  tNames[0] = "1A. Damajâ Jùdo";
-  tNames[1] = "2A. Singapore Chowmein";
-  tNames[2] = "3A. Soul Punch";
-  return tNames; 
-}
-
-
-String[] getTrackNamesB(){
+  // This function assumes you:
+  // - have a file called TRACK_A.txt or TRACK_B.txt. 
+  // - that they have a few lines of text ended using terminators like newline
+  // - It doesn't care what encoding (ansi and utf-8 are fine, great for extend charset)
+  // - please no unicode 
   
-  String[] tNames = new String[3];
-  tNames[0] = "1B. Line one";
-  tNames[1] = "2B. Singapore Chowmein was not tastey";
-  tNames[2] = "3B. Insufficient Parameters (boolean mix)";
-  return tNames; 
+  String[] trackNames = loadStrings(fileName);
+  int numTracks = trackNames.length;
+  
+  if (numTracks == 0) print("checked " + fileName + " but didn't find any tracks, the readme has some suggestions!\n");  
+  for (String track : trackNames){
+    print(track + "\n");    
+  }
+  return trackNames;
+   
 }
-
 
