@@ -59,7 +59,31 @@ class ValueChanger{
   }
   
   
+  boolean isMinus(){
+    if (mouseX > minusButtonLowX && mouseX < minusButtonHighX &&
+        mouseY > minusButtonLowY && mouseY < minusButtonHighY){
+        return true;
+    } else{
+        return false;
+    }
+  }
   
+  boolean isPlus(){
+    if (mouseX > plusButtonLowX && mouseX < plusButtonHighX &&
+        mouseY > plusButtonLowY && mouseY < plusButtonHighY){
+        return true;
+    } else{
+        return false;
+    }
+  }
+  
+  void reduce(){
+    if (currentValue > lowestValue) currentValue -= 1;  
+  }
+  
+  void increase(){
+    if (currentValue < highestValue) currentValue += 1;  
+  }
   
   
 }

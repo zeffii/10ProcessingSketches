@@ -183,6 +183,21 @@ void mousePressed(){
       }  
     }
   }
+  
+  // value changer needs iteration too.
+  
+  if (gridRowChanger.isMinus()){
+    gridRowChanger.reduce();
+    gridRows = gridRowChanger.currentValue;    
+  }
+  
+  if (gridRowChanger.isPlus()){
+    gridRowChanger.increase();
+    gridRows = gridRowChanger.currentValue;    
+  }
+  
+  
+  
    
 }
 
