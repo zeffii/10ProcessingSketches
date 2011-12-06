@@ -6,12 +6,7 @@ class SwitchButton
   float rw, rh;
   boolean inRange = false;
   
-  // UI standards
-  float typeHeight = 12;
-  float lineHeight = typeHeight * 1.4;
-  float baseLeading = 4;
-  float buttonSize = lineHeight;
-  float verticalSpacer = 4;
+  
   float bbleft, bbright, bbtop, bbbottom;  
 
   // constructor
@@ -27,11 +22,13 @@ class SwitchButton
   
   
   void display(){
-    stroke(160, 160, 160);
+    // stroke(160, 160, 160);
+    noStroke();
     
     if (state){
       fill(220, 220, 220);
     }else{
+      stroke(200,200,200);
       fill(255, 255, 255);
     }
     
@@ -39,7 +36,7 @@ class SwitchButton
     rect(pos.x, pos.y, lineHeight, lineHeight, 4);
     
     fill(20,20,20);
-    textFont(createFont("DroidSans", typeHeight));
+    textFont(createFont("DroidSans", uiTypeHeight));
     text(buttonText, pos.x + buttonSize + verticalSpacer, pos.y  + (lineHeight-baseLeading));
       
   }
