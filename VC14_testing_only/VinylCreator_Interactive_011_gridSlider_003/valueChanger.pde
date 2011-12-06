@@ -30,10 +30,8 @@ class ValueChanger{
     
     float lowX = pos.x + buttonSize;
     float lowY = pos.y + buttonSize;
-    float midButton = buttonSize * 0.5;
-    float doubleButtonSpace = buttonSpacing * 2;
     float lowerButtonLocY = pos.y + doubleButtonSpace;
-    float verticalX = pos.x + midButton; 
+    float midwayX = pos.x + midButton; 
     plusButtonLowX = pos.x; 
     plusButtonHighX = pos.x + buttonSize;
     plusButtonLowY = pos.y;
@@ -50,7 +48,7 @@ class ValueChanger{
         
     stroke(signColour);
     line(pos.x + 4, pos.y + midButton, plusButtonHighX - 4, pos.y + midButton);
-    line(verticalX, plusButtonHighY - 4, verticalX, pos.y + 4);
+    line(midwayX, plusButtonHighY - 4, midwayX, pos.y + 4);
     line(pos.x + 4, lowerButtonLocY + midButton, plusButtonHighX - 4, lowerButtonLocY + midButton);
     
   }

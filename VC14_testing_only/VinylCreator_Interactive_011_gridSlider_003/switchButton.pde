@@ -22,11 +22,13 @@ class SwitchButton
   
   
   void display(){
-    stroke(160, 160, 160);
+    // stroke(160, 160, 160);
+    noStroke();
     
     if (state){
       fill(220, 220, 220);
     }else{
+      stroke(200,200,200);
       fill(255, 255, 255);
     }
     
