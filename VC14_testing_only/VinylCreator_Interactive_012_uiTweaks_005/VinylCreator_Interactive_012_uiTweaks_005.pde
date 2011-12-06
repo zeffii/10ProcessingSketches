@@ -9,8 +9,8 @@ import processing.pdf.*;
 // requires textBox.pde
 // requires valueChanger.pde 
 
-String[] tNamesA = new String[0];
-String[] tNamesB = new String[0];
+String[] tNamesA;
+String[] tNamesB;
 PVector tPosA, tPosB;
 
 TextBox tb1, tb2;
@@ -26,23 +26,19 @@ ColourPicker colGridLeft;
 ColourPicker colBleedLeft;
 
 ValueChanger gridRowChanger;
-ValueChanger gridColumnsChanger;
+ValueChanger gridColumnChanger;
+ValueChanger[] changers;
+
 
 void setup() {
       
   size(APP_WIDTH, APP_HEIGHT);
   
-  initTextFields();
+  initTextBoxes();
   initSwitchButtons();
+  initColourPickers();
+  initValueChangers();
   
-  // colour pickers, may become redundant and subclassed.
-  colGridLeft = new ColourPicker(leftGridColour, new PVector(160, buttonStartX - 12), "left grid colour");
-  colBleedLeft = new ColourPicker(leftBleedColour, new PVector(160, buttonStartX + (buttonSpacing*3)), "left bleed colour");
-  
-  // grid buttons ( (PVector itemLocation, String label, int low, int high, int defaultValue) ) 
-  PVector locRowChanger = new PVector((APP_WIDTH/2)-20, LABEL_DIAMETER + 40);
-  gridRowChanger = new ValueChanger(locRowChanger, "Row", 2, 15, 10);
-     
   // noLoop();
   //beginRecord(PDF, "filename.pdf"); 
 
@@ -59,11 +55,14 @@ void draw() {
   initDrawSettings();  
   drawConstructionElements();
   
-  // text fields  
+  // ui debug, comment out lateron // base
+  // drawUIGrid(); 
+ 
+  // text   
   tb1.display();
   tb2.display();
   
-  // clipmask should go here.
+  // clipmask
   drawFauxClipPath(centerA);
   drawFauxClipPath(centerB);
   
@@ -79,11 +78,14 @@ void draw() {
   
   // draw grid changers
   gridRowChanger.display();
+  gridColumnChanger.display();
     
   // check for user interaction with the UI.
   checkTextBoxes(); 
   checkButtons();
-   
+
+  // ui debug, comment out lateron // ontop
+  // drawUIGrid();   
   
   //endRecord();
 }
@@ -103,7 +105,7 @@ void initDrawSettings(){
 }
 
 
-void initTextFields(){
+void initTextBoxes(){
   tNamesA = getTrackNames("SIDE_A.txt");
   tNamesB = getTrackNames("SIDE_B.txt");
   float textBox1X = 300 - 230;
@@ -120,11 +122,13 @@ void initTextFields(){
 
 
 void initSwitchButtons(){
-   
-  sbCrosshair = new SwitchButton("Crosshair", new PVector(10, buttonStartX));
-  sbContour = new SwitchButton("Contour", new PVector(10, buttonStartX + buttonSpacing));
-  sbBleed = new SwitchButton("Bleed", new PVector(10, buttonStartX + (2*buttonSpacing)));
-  sbGrid = new SwitchButton("Grid", new PVector(10, buttonStartX + (3*buttonSpacing)));
+  
+  // float leftButtonPosX = (APP_WIDTH/2)-37;
+  float midButtonsPosX = (APP_WIDTH/2) - midButton;
+  sbCrosshair = new SwitchButton(1, "", new PVector(midButtonsPosX, buttonStartY));
+  sbContour = new SwitchButton(1, "", new PVector(midButtonsPosX, buttonStartY + buttonSpacing));
+  sbBleed = new SwitchButton(1, "", new PVector(midButtonsPosX, buttonStartY + (2*buttonSpacing)));
+  sbGrid = new SwitchButton(1, "", new PVector(midButtonsPosX, buttonStartY + (3*buttonSpacing)));
   buttons[0] = sbCrosshair;
   buttons[1] = sbContour;
   buttons[2] = sbBleed;
@@ -132,6 +136,24 @@ void initSwitchButtons(){
 }
 
 
+void initColourPickers(){
+  float leftButtonsPosX = (APP_WIDTH/2)-37;
+  float rightButtonsPosX = leftButtonsPosX + 57;
+  colGridLeft = new ColourPicker(0, leftGridColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*3)), "");
+  colBleedLeft = new ColourPicker(1, leftBleedColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*2)), "");
+
+}
+
+
+void initValueChangers(){
+  // grid buttons ( (PVector itemLocation, String label, int low, int high, int defaultValue) ) 
+  PVector locRowChanger = new PVector((APP_WIDTH/2)-37, LABEL_DIAMETER + 40);
+  PVector locColChanger = new PVector(locRowChanger.x+57, locRowChanger.y);
+  gridRowChanger = new ValueChanger(locRowChanger, "Row", 2, 15, 10);
+  gridColumnChanger = new ValueChanger(locColChanger, "Column", 2, 15, 10);
+  changers = new ValueChanger[]{gridRowChanger, gridColumnChanger};
+
+}
 
 // u s e r   i n t e r a c t i o n
 
@@ -184,7 +206,9 @@ void mousePressed(){
     }
   }
   
-  // value changer needs iteration too.
+  // value changer needs iteration too, consider passing by reference
+  // the variable that eventually will be changed.
+  // this is muck.
   
   if (gridRowChanger.isMinus()){
     gridRowChanger.reduce();
@@ -195,6 +219,17 @@ void mousePressed(){
     gridRowChanger.increase();
     gridRows = gridRowChanger.currentValue;    
   }
+  
+  if (gridColumnChanger.isMinus()){
+    gridColumnChanger.reduce();
+    gridCols = gridColumnChanger.currentValue;    
+  }
+  
+  if (gridColumnChanger.isPlus()){
+    gridColumnChanger.increase();
+    gridCols = gridColumnChanger.currentValue;    
+  }
+  
   
   
   

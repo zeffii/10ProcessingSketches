@@ -5,15 +5,17 @@ class SwitchButton
   boolean state = true;
   float rw, rh;
   boolean inRange = false;
-  
+  int direction = 0;  // fallback value
+  float labelX;
   
   float bbleft, bbright, bbtop, bbbottom;  
 
   // constructor
-  SwitchButton(String bText, PVector bPos){
+  SwitchButton(int tDir, String bText, PVector bPos){
     buttonText = bText;
     pos = bPos;
-    
+    direction = tDir;
+        
     bbleft = bPos.x;
     bbright = bPos.x + buttonSize;
     bbtop = bPos.y;
@@ -22,7 +24,8 @@ class SwitchButton
   
   
   void display(){
-    // stroke(160, 160, 160);
+    
+    // button setup
     noStroke();
     
     if (state){
@@ -31,13 +34,26 @@ class SwitchButton
       stroke(200,200,200);
       fill(255, 255, 255);
     }
-    
+        
     rectMode(CORNER);
     rect(pos.x, pos.y, lineHeight, lineHeight, 4);
     
+    // text
     fill(20,20,20);
+    
+          
+    if (direction == 0){
+      textAlign(LEFT);
+      labelX = pos.x + buttonSize + verticalSpacer;  
+    }
+  
+    if (direction == 1){
+      textAlign(RIGHT);
+      labelX = pos.x - verticalSpacer;
+    }
+        
     textFont(createFont("DroidSans", uiTypeHeight));
-    text(buttonText, pos.x + buttonSize + verticalSpacer, pos.y  + (lineHeight-baseLeading));
+    text(buttonText, labelX, pos.y  + (lineHeight-baseLeading));
       
   }
   

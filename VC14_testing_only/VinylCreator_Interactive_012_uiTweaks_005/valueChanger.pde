@@ -1,15 +1,14 @@
 class ValueChanger{
   // own
-  int lowestValue;
-  int highestValue; // arbitrary now, but likely to change.
-  int defaultValue;  // for resetting.
-  int currentValue;
-  String uiLabel;
-  PVector pos;
-  color signColour = color(140, 140, 140);
-  
+  int lowestValue, highestValue, defaultValue, currentValue;
+  float lowX, lowY, lowerButtonLocY, midwayX;
   float plusButtonLowX, plusButtonHighX, plusButtonLowY, plusButtonHighY;
   float minusButtonLowX, minusButtonHighX, minusButtonLowY, minusButtonHighY;
+  float[] plusButton;
+  float[] minusButton;
+      
+  String uiLabel;
+  PVector pos;
   
   // constructor
   ValueChanger(PVector itemLocation, String label, int low, int high, int defaultValue){
@@ -18,29 +17,37 @@ class ValueChanger{
     highestValue = high;
     uiLabel = label;
     pos = itemLocation;
+    
+    lowX = pos.x + buttonSize;
+    lowY = pos.y + buttonSize;
+    lowerButtonLocY = pos.y + doubleButtonSpace;
+    midwayX = pos.x + midButton; 
+    
+    plusButtonLowX = pos.x; 
+    plusButtonHighX = pos.x + buttonSize;
+    plusButtonLowY = pos.y;
+    plusButtonHighY = pos.y + buttonSize;
+    plusButton = new float[]{plusButtonLowX, plusButtonHighX, plusButtonLowY, plusButtonHighY}; 
+
+    minusButtonLowX = pos.x; 
+    minusButtonHighX = pos.x + buttonSize; 
+    minusButtonLowY = lowerButtonLocY;
+    minusButtonHighY = lowerButtonLocY + buttonSize;
+    minusButton = new float[]{minusButtonLowX, minusButtonHighX, minusButtonLowY, minusButtonHighY};
+        
   }
 
 
   void display(){
     
     // unreadable and obfuscated, but seems fast.
-    textFont(createFont("DroidSans", uiTypeHeight));   
+    textFont(createFont("DroidSans", uiTypeHeight));
+    textAlign(CORNER);   
     fill(20,20,20);
-    text(uiLabel, pos.x, pos.y + buttonSpacing + lineHeight - baseLeading);  
-    
-    float lowX = pos.x + buttonSize;
-    float lowY = pos.y + buttonSize;
-    float lowerButtonLocY = pos.y + doubleButtonSpace;
-    float midwayX = pos.x + midButton; 
-    plusButtonLowX = pos.x; 
-    plusButtonHighX = pos.x + buttonSize;
-    plusButtonLowY = pos.y;
-    plusButtonHighY = pos.y + buttonSize;
-    minusButtonLowX = pos.x; 
-    minusButtonHighX = pos.x + buttonSize; 
-    minusButtonLowY = lowerButtonLocY;
-    minusButtonHighY = lowerButtonLocY + buttonSize;
-    
+    float centerOfText = textWidth(uiLabel) * .5;
+    float labelPositionX = midwayX - centerOfText;
+    text(uiLabel, labelPositionX, pos.y + buttonSpacing + lineHeight - baseLeading);  
+               
     // plus and minux boxes
     fill(buttonFill);    
     rect(pos.x, pos.y, buttonSize, buttonSize, 4);
@@ -51,31 +58,28 @@ class ValueChanger{
     line(midwayX, plusButtonHighY - 4, midwayX, pos.y + 4);
     line(pos.x + 4, lowerButtonLocY + midButton, plusButtonHighX - 4, lowerButtonLocY + midButton);
     
+    noStroke();
+    
   }
   
-  
-  void reset(){
-    currentValue = defaultValue;  
+    
+  boolean checkButton(float[] buttonBounds){
+    if (mouseX > buttonBounds[0] && mouseX < buttonBounds[1] &&
+          mouseY > buttonBounds[2] && mouseY < buttonBounds[3]){
+          return true;
+      } else{
+          return false;
+      } 
+    
   }
   
   
   boolean isMinus(){
-    if (mouseX > minusButtonLowX && mouseX < minusButtonHighX &&
-        mouseY > minusButtonLowY && mouseY < minusButtonHighY){
-        return true;
-    } else{
-        return false;
-    }
+    return checkButton(minusButton);
   }
-  
   boolean isPlus(){
-    if (mouseX > plusButtonLowX && mouseX < plusButtonHighX &&
-        mouseY > plusButtonLowY && mouseY < plusButtonHighY){
-        return true;
-    } else{
-        return false;
-    }
-  }
+    return checkButton(plusButton);
+  } 
   
   void reduce(){
     if (currentValue > lowestValue) currentValue -= 1;  
@@ -85,5 +89,8 @@ class ValueChanger{
     if (currentValue < highestValue) currentValue += 1;  
   }
   
+  void reset(){
+    currentValue = defaultValue;  
+  }
   
 }

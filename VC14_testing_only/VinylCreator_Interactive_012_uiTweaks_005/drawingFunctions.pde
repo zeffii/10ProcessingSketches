@@ -38,6 +38,7 @@ void drawBleed(PVector cPoint, color bColor){
 }
 
 
+// for design
 void drawGrid(PVector cPoint, color gridColor) {
     
   float leftX = cPoint.x - OUTER_MOST_RADIUS;
@@ -122,6 +123,43 @@ void drawSnugPath(PVector cPoint) {
   ellipse(cPoint.x, cPoint.y, cRad, cRad);
   strokeWeight(1);
 } 
+
+
+
+// U I   d e b u g   d r a w i n g
+
+void drawUIGrid() {
+  
+  // thar be dragons 'ere! 
+  // 06 Dec, i had to rename variables to prevent collision, which i think
+  // might be a bug in the scope resolution, but it's probably my newbness.
+  
+  int uiGridRows = 14;
+  int uiGridCols = 14*3;
+  float leftX = 0;
+  float rightX = APP_WIDTH;
+  float topY = 300 + OUTER_MOST_RADIUS + 20;  //300 = centerA.y
+  float bottomY = 800;
+  float uiGridRowHeight = (bottomY-topY) / uiGridRows;
+  float uiGridColWidth = rightX / uiGridCols;
+    
+  strokeWeight(1);
+  stroke(uiGridColour);
+ 
+  for (int j = 0; j <= uiGridRows; j++) {
+    float yvar = uiGridRowHeight*j;
+    line(leftX, topY + yvar, rightX, topY + yvar);
+  }
+
+  for (int i = 0; i <= uiGridCols; i++){
+    float xvar = uiGridColWidth*i;
+    line(leftX + xvar, topY, leftX + xvar, bottomY);
+  }
+ 
+}
+
+
+
 
 
 
