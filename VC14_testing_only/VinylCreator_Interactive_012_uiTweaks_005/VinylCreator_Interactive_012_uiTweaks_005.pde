@@ -280,13 +280,13 @@ void mouseReleased(){
 void drawConstructionElements(){
   
   if (sbContour.state){
-    drawContour(centerA, OUTER_MOST_RADIUS*2);
-    drawContour(centerB, OUTER_MOST_RADIUS*2);
+    drawContour(centerA, OUTER_MOST_RADIUS*2, leftContourColour);
+    drawContour(centerB, OUTER_MOST_RADIUS*2, rightContourColour);
   }
   
   if (sbCrosshair.state){
-    drawCrossHair(centerA);
-    drawCrossHair(centerB);
+    drawCrossHair(centerA, leftCrosshairColour);
+    drawCrossHair(centerB, rightCrosshairColour);
   }
 
   if (sbBleed.state){

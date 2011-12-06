@@ -43,10 +43,10 @@ color rightBleedColour = color(170, 170, 255);
 color leftGridColour = color(244, 20, 130, 20);
 color rightGridColour = color(244, 20, 130, 20);
 
-color leftContourColour = color(170, 170, 255);
-color rightContourColour = color(170, 170, 255);
+color leftContourColour = color(170, 70, 255);
+color rightContourColour = color(170, 70, 255);
 
-color leftCrosshairColour = color(170, 170, 255);
-color rightCrosshairColour = color(170, 170, 255);
+color leftCrosshairColour = color(120, 170, 255);
+color rightCrosshairColour = color(120, 170, 255);
 
 color myCol = color(60,60,60);  // wtf?  used for textbox items, hopefully you will never read this.

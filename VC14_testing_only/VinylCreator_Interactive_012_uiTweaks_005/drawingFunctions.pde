@@ -1,16 +1,16 @@
-void drawCrossHair(PVector pos){
+void drawCrossHair(PVector pos, color xColor){
   float arm = 5;
   strokeWeight(1);
-  stroke(170,170,255);
+  stroke(xColor);
   line(pos.x-arm, pos.y+arm, pos.x+arm, pos.y-arm);
   line(pos.x-arm, pos.y-arm, pos.x+arm, pos.y+arm);
   
 }
 
 
-void drawContour(PVector pos, float circRadius){
+void drawContour(PVector pos, float circRadius, color contourColour){
   strokeWeight(1);
-  stroke(170,170,255);
+  stroke(contourColour);
   ellipseMode(CENTER);
   noFill();
   ellipse(pos.x, pos.y, circRadius, circRadius);  
