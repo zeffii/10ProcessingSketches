@@ -22,8 +22,11 @@ SwitchButton sbBleed;
 SwitchButton sbGrid;
 SwitchButton[] buttons = new SwitchButton[4];
 
-ColourPicker colGridLeft; 
-ColourPicker colBleedLeft;
+ColourPicker colCrosshairLeft, colCrosshairRight;
+ColourPicker colContourLeft, colContourRight;
+ColourPicker colBleedLeft, colBleedRight;
+ColourPicker colGridLeft, colGridRight; 
+ColourPicker[] colourPickers;
 
 ValueChanger gridRowChanger;
 ValueChanger gridColumnChanger;
@@ -73,8 +76,7 @@ void draw() {
   sbGrid.display();
   
   // draw colour pickers
-  colGridLeft.display();
-  colBleedLeft.display();
+  displayColourPickers();
   
   // draw grid changers
   gridRowChanger.display();
@@ -139,9 +141,19 @@ void initSwitchButtons(){
 void initColourPickers(){
   float leftButtonsPosX = (APP_WIDTH/2)-37;
   float rightButtonsPosX = leftButtonsPosX + 57;
-  colGridLeft = new ColourPicker(0, leftGridColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*3)), "");
-  colBleedLeft = new ColourPicker(1, leftBleedColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*2)), "");
 
+  colCrosshairLeft = new ColourPicker(0, leftCrosshairColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*0)), "");
+  colContourLeft = new ColourPicker(0, leftContourColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*1)), "");
+  colBleedLeft = new ColourPicker(0, leftBleedColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*2)), "");
+  colGridLeft = new ColourPicker(0, leftGridColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*3)), "");
+  
+  colCrosshairRight = new ColourPicker(1, rightCrosshairColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*0)), "");
+  colContourRight = new ColourPicker(1, rightContourColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*1)), "");
+  colBleedRight = new ColourPicker(1, rightBleedColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*2)), "");
+  colGridRight = new ColourPicker(1, rightGridColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*3)), "");
+
+  colourPickers = new ColourPicker[]{  colCrosshairLeft, colContourLeft, colBleedLeft, colGridLeft, 
+                                        colCrosshairRight, colContourRight, colBleedRight, colGridRight}; 
 }
 
 
@@ -154,6 +166,19 @@ void initValueChangers(){
   changers = new ValueChanger[]{gridRowChanger, gridColumnChanger};
 
 }
+
+
+void displayColourPickers(){
+   for (ColourPicker colourPicker : colourPickers){
+       colourPicker.display();
+   } 
+  
+  
+}
+
+
+
+
 
 // u s e r   i n t e r a c t i o n
 
