@@ -13,27 +13,32 @@ PVector centerA, centerB;
 float xOffset = 0.0; 
 float yOffset = 0.0; 
 
-// just in case sides are totally different background colours.
-color leftBleedColour = color(170,170,255);
-color rightBleedColour = color(170,170,255);
-color leftGridColour = color(244, 20, 130, 20);
-color rightGridColour = color(244, 20, 130, 20);
-color myCol = color(60,60,60);  // wtf?  used for textbox items, hopefully you will never read this.
-
 // Design view - typographic typeheight for textbox default declaration
-int tHeight = 20;  
+int tHeight = 18;  
 
 // UI standards
 int uiTypeHeight = 12;  // more like a constant..
 float lineHeight = uiTypeHeight * 1.4;
 float baseLeading = 4;
 float buttonSize = lineHeight;
+float midButton = buttonSize * 0.5;
 float verticalSpacer = 4;
 float buttonSpacing = 20.0;
-float buttonStartX = 680.0;
+float doubleButtonSpace = buttonSpacing * 2;
+float buttonStartX = 680.0 + buttonSpacing;
+
+// UI colours
+color signColour = color(40, 40, 40);
+color buttonFill = color(210, 210, 210);
+color uiGridColour = color(230, 230, 230);
 
 // grid drawing
 int gridRows = 12;
 int gridCols = 12;
 
-
+// default Design view 
+color leftBleedColour = color(170,170,255);
+color rightBleedColour = color(170,170,255);
+color leftGridColour = color(244, 20, 130, 20);
+color rightGridColour = color(244, 20, 130, 20);
+color myCol = color(60,60,60);  // wtf?  used for textbox items, hopefully you will never read this.

@@ -32,12 +32,13 @@ class ColourPicker{
     stroke(230, 230, 230);
     rect(pos.x, pos.y+buttonSpacing, buttonSpacing*4, buttonSize, 4);
 
+    textAlign(LEFT);  // will not be constant
     fill(20,20,20);
     textFont(createFont("DroidSans", uiTypeHeight));
     text(cTitle, pos.x, pos.y  + (lineHeight-baseLeading) - lineHeight);  
 
     String colorHex = "#" + hex(elementColour, 6);
-    text(colorHex, pos.x + (baseLeading*2), pos.y  + (buttonSpacing*2) - baseLeading - 3);  
+    text(colorHex, pos.x + (baseLeading*1.567), pos.y  + (buttonSpacing*2) - baseLeading - 3);  
 
 
     
