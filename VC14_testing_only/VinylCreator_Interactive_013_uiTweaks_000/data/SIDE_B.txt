@@ -1,4 +1,4 @@
 ﻿#UTF8
-1B. Nononé
-2B. Singaporé Chowmein was not tasty
-3B. Insufficient Parameters (boolean mix)
+1B. YES oné
+2B. Singaporé Chowmein
+3B. Unknown function (boolean mix)
