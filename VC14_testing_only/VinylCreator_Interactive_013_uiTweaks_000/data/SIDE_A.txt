@@ -1,0 +1,4 @@
+﻿#UTF8
+1A. StackScope one
+2A. Like Merlins Sleeve
+3A. Insufficient Parameters (float mix)
