@@ -322,26 +322,23 @@ void drawConstructionElements(){
 String[] getTrackNames(String fileName){
 
   // This function assumes a few things:
-  // - you have a file called TRACK_A.txt and TRACK_B.txt, loccated in /data 
+  // - you have a file called TRACK_A.txt and TRACK_B.txt, located in /data 
   // - that they have a few lines of text terminated by newline
   // - if your are loading a UTF-8 textfile (for non ascii character sets) 
   // then you must add #UTF8 to the start of your textfile:  
-  // - if you have no special characters, no formatting is required.
+  // - non utf-8 files require no such extra line at the top.
   // - test the font in an external editor to see if it contains those special characters.
   
   // example , if you want u with an accent you have to save it as .txt set to utf-8 and it should look like this
   /*
    #UTF8
-   1A. Chartlote brûte
+   1A. Charlote brûte
    2A. Menoît (palermo) 
  */ 
    
   
-  
   String[] trackNames = loadStrings(fileName);
-  String emptyString = "";
   String[] trackNamesRedux;
-  
   int numTracks = trackNames.length;
   
   if (numTracks == 0) print("checked " + fileName + " but didn't find any tracks, the readme has some suggestions!\n");  
@@ -352,11 +349,9 @@ String[] getTrackNames(String fileName){
     numTracks -= 1;
     trackNamesRedux = new String[numTracks];
     for (int i = 0; i < numTracks; i+=1){
-      
-      if (trackNames[i] == null) print("shit");
       trackNamesRedux[i] = trackNames[i+1];  
-      
     }
+
     trackNames = trackNamesRedux;
   
   }
@@ -364,8 +359,6 @@ String[] getTrackNames(String fileName){
   for (String track : trackNames){
     print(track + "\n");    
   }
-  
-
   
   return trackNames;
    
