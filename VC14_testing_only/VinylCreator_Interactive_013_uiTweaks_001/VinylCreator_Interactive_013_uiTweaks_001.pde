@@ -9,14 +9,6 @@ import processing.pdf.*;
 // requires textBox.pde
 // requires valueChanger.pde 
 
-/*
-i'm not sure how to speed up the drawing, buttons seem a little sluggish. 
-Perhaps they behave in this way because they are drawn every frame, 
-and maybe should only be draw upon state change.
-
-test
-*/ 
-
 
 String[] tNamesA;
 String[] tNamesB;
@@ -100,9 +92,7 @@ void draw() {
     gridRowChanger.display();
     gridColumnChanger.display();
   
-    //if (mouseX > APP_WIDTH - midButton && mouseX < APP_WIDTH + midButton){
     checkButtons();
-    //}
     
   }  
   else{  
@@ -184,7 +174,6 @@ void initColourPickers(){
 
 
 void initValueChangers(){
-  // grid buttons ( (PVector itemLocation, String label, int low, int high, int defaultValue) ) 
   PVector locRowChanger = new PVector((APP_WIDTH/2)-37, LABEL_DIAMETER + 40);
   PVector locColChanger = new PVector(locRowChanger.x+57, locRowChanger.y);
   gridRowChanger = new ValueChanger(locRowChanger, "Row", 2, 15, 10);
@@ -243,23 +232,16 @@ void mousePressed(){
     }
     
   }
-  
-  // iterates through SwitchButton array until found.
-  // maybe some indirection here, but no point checking these if the mouse is not
-  // in their vicinity.
-  
-  //if (inButtonArea()){
-  
-    for (SwitchButton button : buttons){
-      if (button.over()){
-        if (!button.state){
-          button.state = true;
-        }else{
-          button.state = false;
-        }  
-      }
+    
+  for (SwitchButton button : buttons){
+    if (button.over()){
+      if (!button.state){
+        button.state = true;
+      }else{
+        button.state = false;
+      }  
     }
-  // }
+  }
   
   // these 4 ifs are muck, requires heavy consideration. [ TODO ] 
   
@@ -301,19 +283,6 @@ void mouseReleased(){
   }
 }
 
-/*
-boolean inButtonArea(){
-  if (mouseX > APP_WIDTH - midButton && mouseX < APP_WIDTH + midButton && 
-      mouseY > uiTopY){
-    return true;
-  }else{
-    return false;
-  }
-  
-  
-  
-}
-*/
 
 
 // d e l i g a t e   d r a w i n g   v i s u a l   a i d e s
