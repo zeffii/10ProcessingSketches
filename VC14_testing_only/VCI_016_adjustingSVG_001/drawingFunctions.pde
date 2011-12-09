@@ -1,16 +1,29 @@
-void drawCrossHair(PVector pos){
+void drawLabels(){
+  noStroke();
+  ellipseMode(CENTER);
+  fill(leftLabelColour);
+  ellipse(centerA.x, centerA.y, LABEL_DIAMETER, LABEL_DIAMETER);  
+    
+  ellipseMode(CENTER);
+  fill(rightLabelColour);
+  ellipse(centerB.x, centerB.y, LABEL_DIAMETER, LABEL_DIAMETER);  
+    
+}
+
+
+void drawCrossHair(PVector pos, color xColor){
   float arm = 5;
   strokeWeight(1);
-  stroke(170,170,255);
+  stroke(xColor);
   line(pos.x-arm, pos.y+arm, pos.x+arm, pos.y-arm);
   line(pos.x-arm, pos.y-arm, pos.x+arm, pos.y+arm);
   
 }
 
 
-void drawContour(PVector pos, float circRadius){
+void drawContour(PVector pos, float circRadius, color contourColour){
   strokeWeight(1);
-  stroke(170,170,255);
+  stroke(contourColour);
   ellipseMode(CENTER);
   noFill();
   ellipse(pos.x, pos.y, circRadius, circRadius);  
@@ -42,6 +55,7 @@ void drawBleed(PVector cPoint, color bColor){
 void drawGrid(PVector cPoint, color gridColor) {
     
   float leftX = cPoint.x - OUTER_MOST_RADIUS;
+  float rightMost = leftX + LABEL_DIAMETER;  
   float topY = cPoint.y - OUTER_MOST_RADIUS;
   float bottomY = cPoint.y + OUTER_MOST_RADIUS;
   float gridRowHeight = LABEL_DIAMETER / (gridRows);
@@ -50,7 +64,6 @@ void drawGrid(PVector cPoint, color gridColor) {
   strokeWeight(1);
   stroke(gridColor);
 
-  float rightMost = leftX + LABEL_DIAMETER;
   for (int j = 0; j <= gridRows; j++) {
     float yvar = gridRowHeight*j;
     line(leftX, topY + yvar, rightMost, topY + yvar);
@@ -122,11 +135,14 @@ void drawSnugPath(PVector cPoint) {
   ellipseMode(CENTER);
   ellipse(cPoint.x, cPoint.y, cRad, cRad);
   strokeWeight(1);
+
 } 
 
 
 
 // U I   d e b u g   d r a w i n g
+
+
 
 void drawUIGrid() {
   
@@ -138,9 +154,8 @@ void drawUIGrid() {
   int uiGridCols = 14*3;
   float leftX = 0;
   float rightX = APP_WIDTH;
-  float topY = 300 + OUTER_MOST_RADIUS + 20;  //300 = centerA.y
-  float bottomY = 800;
-  float uiGridRowHeight = (bottomY-topY) / uiGridRows;
+  float bottomY = APP_HEIGHT;
+  float uiGridRowHeight = (bottomY - uiTopY) / uiGridRows;
   float uiGridColWidth = rightX / uiGridCols;
     
   strokeWeight(1);
@@ -148,18 +163,15 @@ void drawUIGrid() {
  
   for (int j = 0; j <= uiGridRows; j++) {
     float yvar = uiGridRowHeight*j;
-    line(leftX, topY + yvar, rightX, topY + yvar);
+    line(leftX, uiTopY + yvar, rightX, uiTopY + yvar);
   }
 
   for (int i = 0; i <= uiGridCols; i++){
     float xvar = uiGridColWidth*i;
-    line(leftX + xvar, topY, leftX + xvar, bottomY);
+    line(leftX + xvar, uiTopY, leftX + xvar, bottomY);
   }
  
 }
-
-
-
 
 
 
@@ -171,3 +183,4 @@ PVector getVectorFromDegreeAndRadius(int i, float rad) {
   PVector coordinate = new PVector(cos(radians(i))*rad, sin(radians(i))*rad);
   return coordinate;
 }
+

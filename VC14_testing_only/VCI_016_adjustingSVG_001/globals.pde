@@ -4,7 +4,8 @@ float OFFSET_FROM_EDGES = 10.0;
 float BLEED_RADIUS = 273.5849;  // 290+290 : 106   x/2 = 100
 float LABEL_DIAMETER = OUTER_MOST_RADIUS * 2; 
 int APP_WIDTH = int(10.0 + LABEL_DIAMETER + 30.0 + LABEL_DIAMETER + 10.0); // depends
-int APP_HEIGHT = 800;
+int APP_HEIGHT = 830;
+int LAYER_VIEW_WIDTH = 460;
 
 // center point declaration.
 PVector centerA, centerB;
@@ -25,8 +26,14 @@ float midButton = buttonSize * 0.5;
 float verticalSpacer = 4;
 float buttonSpacing = 20.0;
 float doubleButtonSpace = buttonSpacing * 2;
-float buttonStartY = 680.0 + buttonSpacing;
+float buttonStartY = 715.0 + buttonSpacing;
+PFont monoFont; // = createFont("DroidSansMono.ttf", uiTypeHeight);
+PFont labelFont; //= createFont("DroidSans.ttf", uiTypeHeight);
+PFont designFont; // = createFont("DroidSans.ttf", tHeight);
 
+// ui area
+float uiTopY = 300 + OUTER_MOST_RADIUS + 20;  //300 = centerA.y
+  
 // UI colours
 color signColour = color(40, 40, 40);
 color buttonFill = color(210, 210, 210);
@@ -37,6 +44,9 @@ int gridRows = 12;
 int gridCols = 12;
 
 // default Design view 
+color leftLabelColour = color(253, 253, 253);
+color rightLabelColour = color(253, 253, 253);
+
 color leftBleedColour = color(170, 170, 255);
 color rightBleedColour = color(170, 170, 255);
 
@@ -50,3 +60,4 @@ color leftCrosshairColour = color(120, 170, 255);
 color rightCrosshairColour = color(120, 170, 255);
 
 color myCol = color(60,60,60);  // wtf?  used for textbox items, hopefully you will never read this.
+

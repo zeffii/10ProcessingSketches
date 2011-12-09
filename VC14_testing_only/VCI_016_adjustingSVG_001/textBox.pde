@@ -16,6 +16,7 @@ class TextBox
   boolean locked = true;
   float bbleft, bbright, bbtop, bbbottom;  
   
+  boolean hidden = false;
   
   // Constructor
   
@@ -36,21 +37,25 @@ class TextBox
   
   void display()
   {
-    textFont(createFont("DroidSans", typeHeight));
-    noStroke();
     
-    drawBoundingBox();
+    if (!hidden){
+      textFont(designFont);
+      noStroke();
+      
+      drawBoundingBox();
+      
+      fill(myColor);
+      if (alignType == 0) textAlign(LEFT);
+      if (alignType == 1) textAlign(RIGHT);
+  
+      //text("ChÅ“wmein", pos.x, pos.y);
     
-    fill(myColor);
-    if (alignType == 0) textAlign(LEFT);
-    if (alignType == 1) textAlign(RIGHT);
-
-    float pointY = pos.y;
-    for (int i = 0; i < trackNames.length; i++){    
-       text(trackNames[i], pos.x, pointY);
-       pointY += lineHeight;
-    }  
-          
+      float pointY = pos.y;
+      for (int i = 0; i < trackNames.length; i++){    
+         text(trackNames[i], pos.x, pointY);
+         pointY += lineHeight;
+      }  
+    }
   }
   
   
@@ -60,7 +65,7 @@ class TextBox
   float getLongestFrom(String[] tNames)
   {
     float longestLength = 0.0;
-    
+      
     for (String s : tNames){
       if (textWidth(s) > longestLength){
         longestLength = textWidth(s); 
@@ -124,4 +129,25 @@ class TextBox
     
   }
   
+  void hide(){
+    hidden = true;   
+  }
+  
+  void show(){
+    hidden = false; 
+  }
+  
+  void updateBody(String[] tNames){
+    
+    if (tNames.length > 0){
+      this.trackNames = tNames;  
+    }else{
+      print("check the content of the String array, might be an empty file");
+    }
+    
+    
+  }
+  
+  
 }
+

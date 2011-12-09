@@ -1,5 +1,6 @@
 import processing.opengl.*;
 import processing.pdf.*;
+import java.io.File;
 
 // from the same folder:
 // requires colourPicker.pde
@@ -9,12 +10,15 @@ import processing.pdf.*;
 // requires textBox.pde
 // requires valueChanger.pde 
 
+
 String[] tNamesA;
 String[] tNamesB;
 PVector tPosA, tPosB;
 
 TextBox tb1, tb2;
 TextBox[] textBoxes = new TextBox[2];
+
+SVGItem daLogo;
 
 SwitchButton sbCrosshair;
 SwitchButton sbContour;
@@ -25,25 +29,44 @@ SwitchButton[] buttons = new SwitchButton[4];
 ColourPicker colCrosshairLeft, colCrosshairRight;
 ColourPicker colContourLeft, colContourRight;
 ColourPicker colBleedLeft, colBleedRight;
-ColourPicker colGridLeft, colGridRight; 
+ColourPicker colGridLeft, colGridRight;
+ColourPicker colLabelLeft, colLabelRight;
 ColourPicker[] colourPickers;
 
 ValueChanger gridRowChanger;
 ValueChanger gridColumnChanger;
 ValueChanger[] changers;
 
+LayerViewObject labelALayers, labelBLayers;
+
+String path;
 
 void setup() {
-      
+  
+  path = sketchPath;
+  
+  monoFont = createFont("DroidSansMono.ttf", uiTypeHeight);
+  labelFont = createFont("DroidSans.ttf", uiTypeHeight);
+  designFont = createFont("DroidSans.ttf", tHeight);
+  
+  
   size(APP_WIDTH, APP_HEIGHT);
   
+  centerA = new PVector(300.0, 300.0);
+  centerB = new PVector(APP_WIDTH-300, 300.0);
+    
   initTextBoxes();
   initSwitchButtons();
   initColourPickers();
   initValueChangers();
   
-  // noLoop();
+  initLayersMechanism();
+  daLogo = new SVGItem("da_logo.svg", new PVector(centerA.x, centerA.y+240)); 
+    
+  //noLoop();
   //beginRecord(PDF, "filename.pdf"); 
+  
+  tb1.updateBody(getTrackNames("More2.txt"));
 
 }  
 
@@ -55,37 +78,54 @@ void setup() {
  
 void draw() {
 
-  initDrawSettings();  
+  resetDrawSettings();
+  drawLabels();  
   drawConstructionElements();
   
-  // ui debug, comment out lateron // base
-  // drawUIGrid(); 
+  labelALayers.display();
+  labelBLayers.display();
  
+  // svg
+  daLogo.display();
+  
   // text   
   tb1.display();
   tb2.display();
   
+
+  
   // clipmask
   drawFauxClipPath(centerA);
   drawFauxClipPath(centerB);
-  
-  // draw buttons
-  sbCrosshair.display();
-  sbContour.display();
-  sbBleed.display();
-  sbGrid.display();
-  
-  // draw colour pickers
-  displayColourPickers();
-  
-  // draw grid changers
-  gridRowChanger.display();
-  gridColumnChanger.display();
     
-  // check for user interaction with the UI.
-  checkTextBoxes(); 
-  checkButtons();
+  if (mouseY > uiTopY && mouseX > APP_WIDTH/2 - 129 && mouseX < APP_WIDTH/2 + 129){
+    
+    // line(APP_WIDTH/2 - 129, uiTopY, APP_WIDTH/2 - 129, APP_HEIGHT);
+    
+    // draw buttons
+    sbCrosshair.display();
+    sbContour.display();
+    sbBleed.display();
+    sbGrid.display();
+      
+    // draw colour pickers
+    displayColourPickers();
+    
+    // draw grid changers
+    if (sbGrid.state){
+      gridRowChanger.display();
+      gridColumnChanger.display();
+    }
+      
+    checkButtons();
+    
+  }  
+  else{  
+    // check for user interaction with the UI. always
+    checkTextBoxes(); 
+  }
 
+  
   // ui debug, comment out lateron // ontop
   // drawUIGrid();   
   
@@ -98,9 +138,7 @@ void draw() {
 
 
 
-void initDrawSettings(){
-  centerA = new PVector(300.0, 300.0);
-  centerB = new PVector(APP_WIDTH-300, 300.0);
+void resetDrawSettings(){
   background(252);
   smooth();
     
@@ -119,6 +157,8 @@ void initTextBoxes(){
   tb2 = new TextBox(tNamesB, tPosB, tHeight, 0, myCol);
   textBoxes[0] = tb1;
   textBoxes[1] = tb2;
+  
+  // tb1.hide();
 
 }
 
@@ -138,6 +178,9 @@ void initColourPickers(){
   float leftButtonsPosX = (APP_WIDTH/2)-37;
   float rightButtonsPosX = leftButtonsPosX + 57;
 
+  colLabelLeft = new ColourPicker(0, leftLabelColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*-1)), "Label A");
+  colLabelRight = new ColourPicker(1, rightLabelColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*-1)), "Label B");
+
   colCrosshairLeft = new ColourPicker(0, leftCrosshairColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*0)), "");
   colBleedLeft = new ColourPicker(0, leftBleedColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*1)), "");
   colContourLeft = new ColourPicker(0, leftContourColour, new PVector(leftButtonsPosX, buttonStartY + (buttonSpacing*2)), "");
@@ -147,14 +190,15 @@ void initColourPickers(){
   colBleedRight = new ColourPicker(1, rightBleedColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*1)), "");
   colContourRight = new ColourPicker(1, rightContourColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*2)), "");
   colGridRight = new ColourPicker(1, rightGridColour, new PVector(rightButtonsPosX, buttonStartY + (buttonSpacing*3)), "");
-
+  
   colourPickers = new ColourPicker[]{  colCrosshairLeft, colBleedLeft, colContourLeft, colGridLeft, 
-                                        colCrosshairRight, colBleedRight, colContourRight, colGridRight}; 
+                                        colCrosshairRight, colBleedRight, colContourRight, colGridRight,
+                                      colLabelLeft, colLabelRight}; 
+
 }
 
 
 void initValueChangers(){
-  // grid buttons ( (PVector itemLocation, String label, int low, int high, int defaultValue) ) 
   PVector locRowChanger = new PVector((APP_WIDTH/2)-37, LABEL_DIAMETER + 40);
   PVector locColChanger = new PVector(locRowChanger.x+57, locRowChanger.y);
   gridRowChanger = new ValueChanger(locRowChanger, "Row", 2, 15, 10);
@@ -164,15 +208,25 @@ void initValueChangers(){
 }
 
 
+void initLayersMechanism(){
+  labelALayers = new LayerViewObject(new PVector(10, uiTopY+30));
+  labelALayers.addLayer();
+
+  
+  labelBLayers = new LayerViewObject(new PVector(APP_WIDTH - LAYER_VIEW_WIDTH - 10, uiTopY+30));
+  labelBLayers.addLayer();
+  labelBLayers.addLayer();
+  labelBLayers.addLayer();
+  labelBLayers.addLayer();
+}
+
+
 void displayColourPickers(){
    for (ColourPicker colourPicker : colourPickers){
        colourPicker.display();
    } 
-  
-  
+    
 }
-
-
 
 
 
@@ -214,9 +268,9 @@ void mousePressed(){
       xOffset = mouseX-tb.getXY().x;
       yOffset = mouseY-tb.getXY().y;
     }
+    
   }
-  
-  // iterates through SwitchButton array until found.
+    
   for (SwitchButton button : buttons){
     if (button.over()){
       if (!button.state){
@@ -248,11 +302,7 @@ void mousePressed(){
     gridColumnChanger.increase();
     gridCols = gridColumnChanger.currentValue;    
   }
-  
-  
-  
-  
-   
+     
 }
 
 
@@ -309,24 +359,62 @@ void drawConstructionElements(){
 
 String[] getTrackNames(String fileName){
 
-  // WARNING MY DEAR FRIEND!
-  // if you read this, it means i have not yet implemented a proper
-  // error handling mechanism. poor coding practices ahead. 
+  // 09 Dec. Addition, 
+  // - TextBox.updateBody(filename)  was added, so this can be modified lateron.
+  // - performs validity check on function call, will return empty String[] if nothing is found.
+  // - platform OS independant path separator lookup.
   
-  // This function assumes you:
-  // - have a file called TRACK_A.txt or TRACK_B.txt. 
+  // Initial state of the function.
+  // This function assumes a few things:
+  // - you have a file called TRACK_A.txt and TRACK_B.txt, located in /data 
   // - that they have a few lines of text terminated by newline
-  // - It doesn't care what encoding (ansi and utf-8 are fine, great for extend charset)
-  // - please no unicode, ever. 
+  // - if your are loading a UTF-8 textfile (for non ascii character sets) 
+  // then you must add #UTF8 to the start of your textfile:  
+  // - non utf-8 files require no such extra line at the top.
+  // - test the font in an external editor to see if it contains those special characters.
   
-  String[] trackNames = loadStrings(fileName);
-  int numTracks = trackNames.length;
+  // example , if you want u with an accent you have to save it as .txt set to utf-8 and it should look like this
+  /*
+   #UTF8
+   1A. Charlote brÃ»te
+   2A. MenoÃ®t (palermo) 
+ */ 
+ 
+  // perform small validity check first, 
+  String separator = new File(path).separator;
   
-  if (numTracks == 0) print("checked " + fileName + " but didn't find any tracks, the readme has some suggestions!\n");  
-  for (String track : trackNames){
-    print(track + "\n");    
-  }
-  return trackNames;
+  File file = new File(path + separator + "data" + separator + fileName);
+  if (file.exists()) {
+        
+    String[] trackNames = loadStrings(fileName);
+    String[] trackNamesRedux;
+    int numTracks = trackNames.length;
+    
+    if (numTracks == 0) print("checked " + fileName + " but didn't find any tracks, the readme has some suggestions!\n");  
    
+    if (trackNames[0].contains("#UTF8")){
+   
+      print("Found UTF8 indicator in " + fileName + "\n");
+      numTracks -= 1;
+      trackNamesRedux = new String[numTracks];
+      for (int i = 0; i < numTracks; i+=1){
+        trackNamesRedux[i] = trackNames[i+1];  
+      }
+  
+      trackNames = trackNamesRedux;
+    
+    }
+    
+    for (String track : trackNames){
+      print(track + "\n");    
+    }
+    
+    return trackNames;
+  }
+  else{
+    print("\n" + fileName + " was not found in the data directory\nplaceholder text added instead");
+    return new String[]{"detroit\n","pump\n"};
+  }  
 }
+
 
