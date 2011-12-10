@@ -64,6 +64,7 @@ class SwitchButton
     } else{
       return false;
     }
+    
   }
   
   

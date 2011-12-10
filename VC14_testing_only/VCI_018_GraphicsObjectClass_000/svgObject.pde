@@ -8,6 +8,7 @@ class SVGObject extends GraphicsObject{
  float svgHeight; 
  String filename;
  
+ // constructor
  SVGObject(PVector pos, String _filename){
    super(pos);
    filename = _filename;
@@ -22,8 +23,8 @@ class SVGObject extends GraphicsObject{
 
  }
  
+ 
  void display(){
-   
    // because scaling occurs from one side, and not uniform from the center 
    // (as far as i can tell) , it's necessary to do it this way.
    
@@ -45,10 +46,12 @@ class SVGObject extends GraphicsObject{
       
  }
  
+ 
  void decreaseScale(){
    adjustDimensions(.99);
    
  }
+ 
  
  void adjustDimensions(float scaleVal){
    svgItem.scale(scaleVal);
@@ -57,14 +60,18 @@ class SVGObject extends GraphicsObject{
    
  }
  
+ 
  void resetScale(){
    svgItem = loadShape(filename);
    svgItem.scale(.25);
    
  }
  
+ 
  String nature(){
     return "svg\n"; 
+ 
  }
+ 
  
 }

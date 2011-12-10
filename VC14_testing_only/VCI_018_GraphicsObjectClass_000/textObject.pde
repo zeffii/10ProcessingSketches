@@ -7,7 +7,6 @@ class TextObject extends GraphicsObject {
   float lineHeight;
 
   // Constructor
-
   TextObject(String[] _trackNames, PVector pos, int _typeHeight, int _alignType, color _myColor) {
     super(pos);
     trackNames = _trackNames;
@@ -16,6 +15,7 @@ class TextObject extends GraphicsObject {
     myColor = _myColor;
     lineHeight = _typeHeight * 1.1675;
   }
+
 
   void display() {
 
@@ -44,9 +44,6 @@ class TextObject extends GraphicsObject {
   }
 
 
-  // commodities.
-
-
   float getLongestFrom(String[] tNames) {
     float longestLength = 0.0;
 
@@ -69,8 +66,11 @@ class TextObject extends GraphicsObject {
     }
   }
 
+
   String nature() {
     return "textobject\n";
   }
+  
+  
 }
 

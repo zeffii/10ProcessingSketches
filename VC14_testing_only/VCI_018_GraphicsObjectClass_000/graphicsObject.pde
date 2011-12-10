@@ -2,31 +2,22 @@
 
 
 class GraphicsObject {
+  
+  // available to all subclasses
   PVector pos;
   float bbleft, bbright, bbtop, bbbottom;
   boolean hidden = false;
   boolean selected = false;
   boolean locked = true;
-  // int overthreshold = 2;
- 
+
+  // constructor
   GraphicsObject(PVector _pos) {
     pos = _pos;
   }
 
-  void display() {
-    // implemented by subclasses
-  }
-  
-  /*
-  String nature(){
-     return "GraphicsObject\n"; 
-  }
-  
-  
-  void updateBody(String[] tNames) {
-  //  
-  }
-  */
+
+  void display(){}
+
   
   void drawBoundingBox(){
     pushStyle();
@@ -40,7 +31,7 @@ class GraphicsObject {
       endShape(CLOSE);
     popStyle();
   }
- 
+
  
   boolean over() {
     if (mouseX > bbleft && mouseX < bbright &&
@@ -50,19 +41,22 @@ class GraphicsObject {
       return false;
     }  
   }
- 
+
  
   void setXY(PVector newpos) {
     pos = newpos;
   }
+
  
   PVector getXY() {
     return new PVector(pos.x,pos.y);
   }
 
+
   void hide(){
     hidden = true;   
   }
+ 
   
   void show(){
     hidden = false; 

@@ -1,5 +1,5 @@
 class ValueChanger{
-  // own
+
   int lowestValue, highestValue, defaultValue, currentValue;
   float lowX, lowY, lowerButtonLocY, midwayX;
   float plusButtonLowX, plusButtonHighX, plusButtonLowY, plusButtonHighY;
@@ -77,6 +77,7 @@ class ValueChanger{
   boolean isMinus(){
     return checkButton(minusButton);
   }
+  
   boolean isPlus(){
     return checkButton(plusButton);
   } 
