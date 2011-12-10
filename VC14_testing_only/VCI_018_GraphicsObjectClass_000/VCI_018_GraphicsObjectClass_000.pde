@@ -55,24 +55,20 @@ void setup() {
   designFont = createFont("DroidSans.ttf", tHeight);
     
   size(APP_WIDTH, APP_HEIGHT);
-  
   centerA = new PVector(300.0, 300.0);
   centerB = new PVector(APP_WIDTH-300, 300.0);
   
   gobjs = new ArrayList<GraphicsObject>();  
-  initGraphicsObjects();
-    
+  
+  initGraphicsObjects();  
   initSwitchButtons();
   initColourPickers();
   initValueChangers();
   initLayersMechanism();
-      
-    
+          
   //noLoop();
   //beginRecord(PDF, "filename.pdf"); 
-  
-  // tb1.updateBody(getTrackNames("More2.txt"));
-
+    
 }  
 
 
@@ -89,13 +85,11 @@ void draw() {
   
   labelALayers.display();
   labelBLayers.display();
-  
+
   for (GraphicsObject go : gobjs){
     go.display();
   } 
-
   
-  // clipmask
   drawFauxClipPath(centerA);
   drawFauxClipPath(centerB);
     
@@ -124,8 +118,6 @@ void draw() {
     checkGraphicsObjects();
   }
 
-  
-  // ui debug, comment out lateron // ontop
   // drawUIGrid();   
   
   //endRecord();

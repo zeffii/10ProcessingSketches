@@ -17,6 +17,17 @@ class GraphicsObject {
     // implemented by subclasses
   }
   
+  /*
+  String nature(){
+     return "GraphicsObject\n"; 
+  }
+  
+  
+  void updateBody(String[] tNames) {
+  //  
+  }
+  */
+  
   void drawBoundingBox(){
     pushStyle();
       noFill();

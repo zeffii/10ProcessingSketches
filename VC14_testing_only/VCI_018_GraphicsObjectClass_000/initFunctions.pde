@@ -19,11 +19,16 @@ void initGraphicsObjects(){
 
   gobjs.add(new TextObject(tNamesA, tPosA, tHeight, 0, myCol));
   gobjs.add(new TextObject(tNamesB, tPosB, tHeight, 0, myCol));
-  gobjs.add(new SVGObject(new PVector(120,120), "da_logo.svg"));  
-
+  gobjs.add(new SVGObject(new PVector(centerA.x,520), "da_logo.svg"));  
   
-  // tb1.hide();
-
+  // mechanism to updateBody.
+  GraphicsObject testOb = gobjs.get(1);
+  if (testOb instanceof TextObject){
+     TextObject textObject = (TextObject) testOb;
+     textObject.updateBody(getTrackNames("More.txt"));
+    
+  }
+  
 }
 
 

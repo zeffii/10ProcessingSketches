@@ -2,7 +2,6 @@ class SVGObject extends GraphicsObject{
   
  PShape svgItem;
  float scaleValue;
- // PVector pos;
  float svgWidthOriginal;
  float svgHeightOriginal; 
  float svgWidth;
@@ -62,6 +61,10 @@ class SVGObject extends GraphicsObject{
    svgItem = loadShape(filename);
    svgItem.scale(.25);
    
+ }
+ 
+ String nature(){
+    return "svg\n"; 
  }
  
 }
