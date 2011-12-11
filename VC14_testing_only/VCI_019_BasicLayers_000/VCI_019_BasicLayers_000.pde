@@ -26,7 +26,7 @@ PVector tPosA, tPosB;
 // ArrayList<GraphicsObject> gobjs;
 ArrayList<GraphicsObject> gobjsA;
 ArrayList<GraphicsObject> gobjsB;
-ArrayList<ArrayList <GraphicsObject>> bothLabels;
+// ArrayList<ArrayList <GraphicsObject>> bothLabels;
 
 SwitchButton sbCrosshair;
 SwitchButton sbContour;
@@ -63,7 +63,7 @@ void setup() {
   
   gobjsA = new ArrayList<GraphicsObject>();
   gobjsB = new ArrayList<GraphicsObject>();
-  bothLabels = new ArrayList<ArrayList <GraphicsObject>>();
+  // bothLabels = new ArrayList<ArrayList <GraphicsObject>>();
   
   initGraphicsObjects();  
   initSwitchButtons();

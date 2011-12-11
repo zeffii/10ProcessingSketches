@@ -1,15 +1,17 @@
 class TextObject extends GraphicsObject {
 
   String[] trackNames;
+  String filename;
   int typeHeight;
   int alignType; // 0 = left, 1 = right
   color myColor;
   float lineHeight;
 
   // Constructor
-  TextObject(String[] _trackNames, PVector pos, int _typeHeight, int _alignType, color _myColor) {
+  TextObject(String _filename, PVector pos, int _typeHeight, int _alignType, color _myColor) {
     super(pos);
-    trackNames = _trackNames;
+    trackNames = getTrackNames(_filename);
+    filename = _filename;
     typeHeight = _typeHeight;
     alignType = _alignType;
     myColor = _myColor;
@@ -71,6 +73,12 @@ class TextObject extends GraphicsObject {
     return "textobject";
   }
   
+  
+  String getFileName(){
+    return filename; 
+  
+  }
+
   
 }
 

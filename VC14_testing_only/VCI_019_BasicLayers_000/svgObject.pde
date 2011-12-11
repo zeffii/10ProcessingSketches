@@ -74,4 +74,9 @@ class SVGObject extends GraphicsObject{
  }
  
  
+ String getFileName(){
+     return filename; 
+ }
+ 
+ 
 }

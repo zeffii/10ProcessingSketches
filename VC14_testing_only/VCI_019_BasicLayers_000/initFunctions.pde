@@ -10,15 +10,15 @@ void resetDrawSettings(){
 
 
 void initGraphicsObjects(){
-  tNamesA = getTrackNames("SIDE_A.txt");
-  tNamesB = getTrackNames("SIDE_B.txt");
+  // tNamesA = getTrackNames("SIDE_A.txt");
+  // tNamesB = getTrackNames("SIDE_B.txt");
   float textBox1X = 300 - 230;
   float textBox2X = APP_WIDTH - 300 - 230;
   tPosA = new PVector(textBox1X, 370.0);
   tPosB = new PVector(textBox2X, 370.0);
 
-  gobjsA.add(new TextObject(tNamesA, tPosA, tHeight, 0, myCol));
-  gobjsB.add(new TextObject(tNamesB, tPosB, tHeight, 0, myCol));
+  gobjsA.add(new TextObject("SIDE_A.txt", tPosA, tHeight, 0, myCol));
+  gobjsB.add(new TextObject("SIDE_B.txt", tPosB, tHeight, 0, myCol));
   gobjsA.add(new SVGObject(new PVector(centerA.x,520), "da_logo.svg"));  
   
   /*

@@ -32,8 +32,7 @@ class LayerViewObject{
        
        String layerInfo;
        for (int i = 0; i < numLayers; i+=1){
-         
-         layerInfo = "chumpski";
+         layerInfo = getLayerText(gObjects.get(i));
          drawLayer(new PVector(pos.x+10, yPos), layerInfo);
          yPos += (LAYER_HEIGHT + LAYER_SPACER);
          
@@ -43,7 +42,29 @@ class LayerViewObject{
           
    }
   
-  
+    
+   // long winded. maybe add .filename to the superclass. 
+   String getLayerText(GraphicsObject testOb){
+     String temp = "no string";
+     
+     if (testOb instanceof SVGObject){
+       SVGObject svgObject = (SVGObject) testOb;
+       temp = svgObject.filename;
+      
+     }
+     
+     if (testOb instanceof TextObject){
+       TextObject textObject = (TextObject) testOb;
+       temp = textObject.filename;
+      
+     }
+          
+     return temp;
+    
+   } 
+    
+    
+    
    void addLayer(){
      numLayers += 1;  
      
