@@ -11,6 +11,8 @@ PVector tPosA, tPosB;
 ArrayList<GraphicsObject> gobjsA, gobjsB; //, gobjsAB;
 
 // UI
+PFont monoFont, labelFont, designFont;
+
 SwitchButton sbCrosshair, sbContour, sbBleed, sbGrid;
 SwitchButton[] buttons = new SwitchButton[4];
 
@@ -25,3 +27,6 @@ ValueChanger gridRowChanger, gridColumnChanger;
 ValueChanger[] changers;
 
 LayerViewObject labelALayers, labelBLayers;
+
+
+

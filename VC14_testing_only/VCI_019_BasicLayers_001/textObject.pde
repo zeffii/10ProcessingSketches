@@ -6,6 +6,7 @@ class TextObject extends GraphicsObject {
   int alignType; // 0 = left, 1 = right
   color myColor;
   float lineHeight;
+  // PFont designFont;
 
   // Constructor
   TextObject(String _filename, PVector pos, int _typeHeight, int _alignType, color _myColor) {

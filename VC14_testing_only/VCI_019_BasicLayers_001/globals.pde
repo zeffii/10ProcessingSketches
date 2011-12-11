@@ -31,7 +31,6 @@ float verticalSpacer = 4;
 float buttonSpacing = 20.0;
 float doubleButtonSpace = buttonSpacing * 2;
 float buttonStartY = 715.0 + buttonSpacing;
-PFont monoFont, labelFont, designFont; 
 
 
 // ui area
