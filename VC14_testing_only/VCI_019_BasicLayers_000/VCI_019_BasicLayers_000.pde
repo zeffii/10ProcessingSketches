@@ -1,7 +1,5 @@
 /*
-MIT license.
-Dealga McArdle Dec 2011.
-
+MIT license. Dealga McArdle Dec 2011.
 Thanks to pomax of irc freenode #processing for clarifications.
 */
 
@@ -11,43 +9,9 @@ import processing.pdf.*;
 import java.io.File;
 import java.util.ArrayList;
 
-// from the same folder:
-// requires colourPicker.pde
-// requires drawingFunctions.pde
-// requires globals.pde
-// requires switchButton.pde
-// requires textBox.pde
-// requires valueChanger.pde
 
-String[] tNamesA;
-String[] tNamesB;
-PVector tPosA, tPosB;
 
-// ArrayList<GraphicsObject> gobjs;
-ArrayList<GraphicsObject> gobjsA;
-ArrayList<GraphicsObject> gobjsB;
-// ArrayList<ArrayList <GraphicsObject>> bothLabels;
 
-SwitchButton sbCrosshair;
-SwitchButton sbContour;
-SwitchButton sbBleed;
-SwitchButton sbGrid;
-SwitchButton[] buttons = new SwitchButton[4];
-
-ColourPicker colCrosshairLeft, colCrosshairRight;
-ColourPicker colContourLeft, colContourRight;
-ColourPicker colBleedLeft, colBleedRight;
-ColourPicker colGridLeft, colGridRight;
-ColourPicker colLabelLeft, colLabelRight;
-ColourPicker[] colourPickers;
-
-ValueChanger gridRowChanger;
-ValueChanger gridColumnChanger;
-ValueChanger[] changers;
-
-LayerViewObject labelALayers, labelBLayers;
-
-String path;
 
 void setup() {
   
@@ -63,7 +27,6 @@ void setup() {
   
   gobjsA = new ArrayList<GraphicsObject>();
   gobjsB = new ArrayList<GraphicsObject>();
-  // bothLabels = new ArrayList<ArrayList <GraphicsObject>>();
   
   initGraphicsObjects();  
   initSwitchButtons();
@@ -98,9 +61,7 @@ void draw() {
   //  }
   //  
   //}
-  
-  
-  
+
   for (GraphicsObject go : gobjsA){
     go.display();
   } 
@@ -108,9 +69,6 @@ void draw() {
   for (GraphicsObject go : gobjsB){
     go.display();
   } 
-  
-  
-  
   
   drawFauxClipPath(centerA);
   drawFauxClipPath(centerB);
@@ -143,6 +101,7 @@ void draw() {
   // drawUIGrid();   
   
   //endRecord();
+
 }
 
 
@@ -310,28 +269,27 @@ void drawConstructionElements(){
 
 String[] getTrackNames(String fileName){
   
-  // 10 Dec. this function sucks to high heavens.
-  // - [TODO]  make me pretty.
-
-  // 09 Dec. Addition, 
-  // - TextBox.updateBody(filename)  was added, so this can be modified lateron.
-  // - performs validity check on function call, will return empty String[] if nothing is found.
-  // - platform OS independant path separator lookup.
-  
-  // Initial state of the function.
-  // This function assumes a few things:
-  // - you have a file called TRACK_A.txt and TRACK_B.txt, located in /data 
-  // - that they have a few lines of text terminated by newline
-  // - if your are loading a UTF-8 textfile (for non ascii character sets) 
-  // then you must add #UTF8 to the start of your textfile:  
-  // - non utf-8 files require no such extra line at the top.
-  // - test the font in an external editor to see if it contains those special characters.
-  
-  // example , if you want u with an accent you have to save it as .txt set to utf-8 and it should look like this
   /*
+  10 Dec. this function sucks to high heavens.
+  - [TODO]  make me pretty.
+  
+  09 Dec. Addition, 
+  - TextObject.updateBody(filename)  was added, so this can be modified lateron.
+  - performs validity check on function call, will return placeholder String[] if nothing is found.
+  - platform OS independant path separator lookup.
+  
+  Initial state of the function.
+  This function assumes a few things:
+  - that the .txt files have a few lines of text terminated by newline
+  - loading a UTF-8 textfile, you must add #UTF8 to the start of your textfile:  
+  - non utf-8 files require no such extra line at the top.
+  
+  example , if you want u with an accent you have to save it as .txt set to utf-8 and it should look like this
+
    #UTF8
    1A. Charlote brÃ»te
    2A. MenoÃ®t (palermo) 
+ 
  */ 
  
   // perform small validity check first, 
@@ -344,10 +302,12 @@ String[] getTrackNames(String fileName){
     String[] trackNamesRedux;
     int numTracks = trackNames.length;
     
-    if (numTracks == 0) print("checked " + fileName + " but didn't find any tracks, the readme has some suggestions!\n");  
-   
+    if (numTracks == 0) {
+      print("checked " + fileName + ", appears empty!\n");
+      return new String[]{"detroit\n","pump\n"};  
+    }
+    
     if (trackNames[0].contains("#UTF8")){
-   
       print("Found UTF8 indicator in " + fileName + "\n");
       numTracks -= 1;
       trackNamesRedux = new String[numTracks];
@@ -361,14 +321,20 @@ String[] getTrackNames(String fileName){
     
     for (String track : trackNames){
       print(track + "\n");    
+
     }
     
     return trackNames;
+
   }
   else{
+
     print("\n" + fileName + " was not found in the data directory\nplaceholder text added instead");
     return new String[]{"detroit\n","pump\n"};
+
   }  
+
+
 }
 
 
