@@ -4,8 +4,7 @@ String path;
 // center point
 PVector centerA, centerB;
 
-// not sure
-String[] tNamesA, NamesB;
+// initial graphics text box location.
 PVector tPosA, tPosB;
 
 // contains the GraphicsObjects in order of display.

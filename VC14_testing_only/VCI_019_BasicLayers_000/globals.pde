@@ -18,6 +18,7 @@ int tHeight = 18; // typographic typeheight
 color myCol = color(60,60,60);  // color for textbox, hopefully you will never read this.
 int gridRows = 12;
 int gridCols = 12;
+String[] placeHolder = new String[]{"detroit\n","pump\n"};  
 
 
 // UI standards

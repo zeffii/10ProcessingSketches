@@ -10,9 +10,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-
-
-
 void setup() {
   
   path = sketchPath;
@@ -263,78 +260,74 @@ void drawConstructionElements(){
 
 
 
-// t y p o g r a p h i c   e l e m e n t s
+// T e x t O b j e c t   B o d y   L o a d i n g.
 
 
 
 String[] getTrackNames(String fileName){
   
   /*
-  10 Dec. this function sucks to high heavens.
   - [TODO]  make me pretty.
-  
-  09 Dec. Addition, 
-  - TextObject.updateBody(filename)  was added, so this can be modified lateron.
-  - performs validity check on function call, will return placeholder String[] if nothing is found.
+  - performs validity check, will return placeholder String[] if nothing is found.
   - platform OS independant path separator lookup.
-  
-  Initial state of the function.
-  This function assumes a few things:
-  - that the .txt files have a few lines of text terminated by newline
   - loading a UTF-8 textfile, you must add #UTF8 to the start of your textfile:  
   - non utf-8 files require no such extra line at the top.
   
-  example , if you want u with an accent you have to save it as .txt set to utf-8 and it should look like this
-
-   #UTF8
-   1A. Charlote brÃ»te
-   2A. MenoÃ®t (palermo) 
- 
+  example, if you want u with an accent you have to save it as .txt 
+  set to utf-8 and it should look like this
+  
+     #UTF8
+     1A. Charlote brÃ»te
+     2A. MenoÃ®t (palermo) 
+   
  */ 
  
   // perform small validity check first, 
   String separator = new File(path).separator;
-  
   File file = new File(path + separator + "data" + separator + fileName);
-  if (file.exists()) {
-        
-    String[] trackNames = loadStrings(fileName);
-    String[] trackNamesRedux;
-    int numTracks = trackNames.length;
-    
-    if (numTracks == 0) {
-      print("checked " + fileName + ", appears empty!\n");
-      return new String[]{"detroit\n","pump\n"};  
-    }
-    
-    if (trackNames[0].contains("#UTF8")){
-      print("Found UTF8 indicator in " + fileName + "\n");
-      numTracks -= 1;
-      trackNamesRedux = new String[numTracks];
-      for (int i = 0; i < numTracks; i+=1){
-        trackNamesRedux[i] = trackNames[i+1];  
-      }
-  
-      trackNames = trackNamesRedux;
-    
-    }
-    
-    for (String track : trackNames){
-      print(track + "\n");    
 
-    }
-    
-    return trackNames;
-
+  if (file.exists()) { 
+    return parseFile(fileName); 
   }
   else{
-
     print("\n" + fileName + " was not found in the data directory\nplaceholder text added instead");
-    return new String[]{"detroit\n","pump\n"};
-
+    return placeHolder;
   }  
 
 
 }
 
+
+String[] parseFile(String fileName){
+  String[] trackNames = loadStrings(fileName);
+  String[] trackNamesRedux;
+  int numTracks = trackNames.length;
+  
+  // Empty file
+  if (numTracks == 0) {
+    print("checked " + fileName + ", appears empty!\n");
+    return placeHolder;  
+  }
+  
+  // incase UTF8
+  if (trackNames[0].contains("#UTF8")){
+    print("Found UTF8 indicator in " + fileName + "\n");
+    numTracks -= 1;
+    trackNamesRedux = new String[numTracks];
+
+    for (int i = 0; i < numTracks; i+=1){
+      trackNamesRedux[i] = trackNames[i+1];  
+    }
+
+    trackNames = trackNamesRedux;
+  }
+  
+  // UTF and NORMAL
+  for (String track : trackNames){
+    print(track + "\n");    
+
+  }
+  
+  return trackNames;
+}
 
