@@ -35,6 +35,11 @@ class TextObject extends GraphicsObject {
       textAlign(RIGHT); 
       textAlignX = pos.x + getLongestFrom(trackNames);
     }
+    
+    if (alignType == 2) {
+      textAlign(CENTER);
+      textAlignX = pos.x; // - (getLongestFrom(trackNames)/2);
+    }
       
     float pointY = pos.y;
     for (int i = 0; i < trackNames.length; i++) {    
@@ -46,6 +51,14 @@ class TextObject extends GraphicsObject {
     bbright = pos.x + getLongestFrom(trackNames);
     bbtop = pos.y - lineHeight;
     bbbottom = pos.y + lineHeight * (trackNames.length-1);
+    
+    // need to correct the bounding box drawing.
+    if ( alignType == 2) {
+      bbleft = pos.x - (getLongestFrom(trackNames)/2);
+      bbright = pos.x + (getLongestFrom(trackNames)/2);
+    }
+    
+    
 
     if (selected) drawBoundingBox();
 

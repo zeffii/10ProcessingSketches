@@ -16,8 +16,11 @@ void initGraphicsObjects(){
   tPosB = new PVector(textBox2X + 140, 370.0);
 
   // Lowest layer first.
-  gobjsA.add(new SVGObject(new PVector(centerA.x,520), "da_logo.svg"));
+  gobjsA.add(new SVGObject(new PVector(centerA.x, 520), "da_logo.svg"));
   gobjsA.add(new TextObject("SIDE_A.txt", tPosA, "DroidSans.ttf", tHeight, 0, myCol));
+  gobjsA.add(new TextObject("LOGO_A.txt", new PVector(90, 250), "NovaRound.ttf", 60, 0, myCol));
+  gobjsA.add(new TextObject("info.txt", new PVector(centerA.x, 450), "NovaRound.ttf", 10, 2, myCol));
+  
     
   gobjsB.add(new SVGObject(new PVector(centerB.x,490), "wonk2.svg"));
   gobjsB.add(new TextObject("SIDE_B.txt", tPosB, "DroidSans.ttf", tHeight, 1, myCol));  

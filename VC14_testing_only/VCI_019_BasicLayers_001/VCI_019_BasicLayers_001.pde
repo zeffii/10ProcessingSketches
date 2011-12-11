@@ -7,7 +7,7 @@ Thanks to pomax of irc freenode #processing for clarifications.
 import processing.opengl.*;
 import processing.pdf.*;
 import java.io.File;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 
 void setup() {
@@ -16,7 +16,6 @@ void setup() {
   
   monoFont = createFont("DroidSansMono.ttf", uiTypeHeight);
   labelFont = createFont("DroidSans.ttf", uiTypeHeight);
-  // designFont = createFont("DroidSans.ttf", tHeight);
     
   size(APP_WIDTH, APP_HEIGHT);
   centerA = new PVector(300.0, 300.0);

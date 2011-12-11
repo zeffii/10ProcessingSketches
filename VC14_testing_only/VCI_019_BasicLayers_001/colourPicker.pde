@@ -2,7 +2,7 @@
 
 class ColourPicker{
 
-  String cTitle;  // cTitle not correctly implemented anymore. don't use untill you do.
+  String cTitle; // draws above the colourbox.
   float r, g, b, a;
   PVector pos;
   int direction;
