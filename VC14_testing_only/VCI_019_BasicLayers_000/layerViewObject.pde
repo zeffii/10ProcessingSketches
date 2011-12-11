@@ -1,6 +1,6 @@
 class LayerViewObject{
   
-   // layers can store TextBoxes and SVG
+   // layers can store TextBoxes or SVG
    // layers are assigned a drawOrder.
    // accepts a LayersObject eventually.
    PVector pos;
@@ -36,6 +36,9 @@ class LayerViewObject{
          drawLayer(new PVector(pos.x+10, yPos), layerInfo);
          yPos += (LAYER_HEIGHT + LAYER_SPACER);
          
+         // also ensure that object on the layer get displayed
+         gObjects.get(i).display();
+         
        }
    
      popStyle();  
@@ -56,6 +59,7 @@ class LayerViewObject{
      if (testOb instanceof TextObject){
        TextObject textObject = (TextObject) testOb;
        temp = textObject.filename;
+       temp += (" > " + getFirstFewChars(textObject.trackNames));
       
      }
           
@@ -115,5 +119,17 @@ class LayerViewObject{
      
    } 
   
+  
+}
+
+String getFirstFewChars(String[] trackNames){
+   
+   if (trackNames[0].length() <= 8){
+     return trackNames[0] + "..."; 
+   }
+   else{
+     return trackNames[0].substring(0,8) + "...";
+   }
+    
   
 }

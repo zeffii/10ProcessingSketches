@@ -15,12 +15,12 @@ void initGraphicsObjects(){
   tPosA = new PVector(textBox1X, 370.0);
   tPosB = new PVector(textBox2X, 370.0);
 
-  // remember to reverse order if you are initing this way.
-  gobjsA.add(new TextObject("SIDE_A.txt", tPosA, tHeight, 0, myCol));
+  // Lowest layer first.
   gobjsA.add(new SVGObject(new PVector(centerA.x,520), "da_logo.svg"));
-  
-  gobjsB.add(new SVGObject(new PVector(centerB.x,520), "wonk.svg"));    // lowest
-  gobjsB.add(new TextObject("SIDE_B.txt", tPosB, tHeight, 0, myCol));  // higher
+  gobjsA.add(new TextObject("SIDE_A.txt", tPosA, tHeight, 0, myCol));
+    
+  gobjsB.add(new SVGObject(new PVector(centerB.x,520), "wonk2.svg"));
+  gobjsB.add(new TextObject("SIDE_B.txt", tPosB, tHeight, 0, myCol));  
    
   
   /*

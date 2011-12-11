@@ -144,6 +144,24 @@ void drawSnugPath(PVector cPoint) {
 
 
 
+void drawUI(){
+  // draw buttons
+  sbCrosshair.display();
+  sbContour.display();
+  sbBleed.display();
+  sbGrid.display();
+    
+  // draw colour pickers
+  displayColourPickers();
+  
+  // draw grid changers
+  if (sbGrid.state){
+    gridRowChanger.display();
+    gridColumnChanger.display();
+  }
+}
+
+
 void drawUIGrid() {
   
   // thar be dragons 'ere! 

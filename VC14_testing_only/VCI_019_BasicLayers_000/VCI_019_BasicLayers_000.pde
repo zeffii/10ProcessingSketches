@@ -50,49 +50,16 @@ void draw() {
   
   labelALayers.display();
   labelBLayers.display();
-
-  // combine these
-  //for (ArrayList<GraphicsObject> AList : bothLabels){
-  //  for (GraphicsObject go : AList){
-  //    go.display();
-  //  }
-  //  
-  //}
-
-  for (GraphicsObject go : gobjsA){
-    go.display();
-  } 
-  
-  for (GraphicsObject go : gobjsB){
-    go.display();
-  } 
   
   drawFauxClipPath(centerA);
   drawFauxClipPath(centerB);
     
   if (mouseY > uiTopY && mouseX > APP_WIDTH/2 - 129 && mouseX < APP_WIDTH/2 + 129){
-    
-    // draw buttons
-    sbCrosshair.display();
-    sbContour.display();
-    sbBleed.display();
-    sbGrid.display();
-      
-    // draw colour pickers
-    displayColourPickers();
-    
-    // draw grid changers
-    if (sbGrid.state){
-      gridRowChanger.display();
-      gridColumnChanger.display();
-    }
-      
+    drawUI();
     checkButtons();
-    
   }  
   else{  
-    // check for user interaction with the UI. always
-    checkGraphicsObjects();
+    checkGraphicsObjects(); // if the mouse is not in the buttons area. we check graphics area.
   }
 
   // drawUIGrid();   
@@ -303,7 +270,7 @@ String[] parseFile(String fileName){
   String[] trackNamesRedux;
   int numTracks = trackNames.length;
   
-  // Empty file
+  // Empty file, end early.
   if (numTracks == 0) {
     print("checked " + fileName + ", appears empty!\n");
     return placeHolder;  
