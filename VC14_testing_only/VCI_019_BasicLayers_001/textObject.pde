@@ -62,6 +62,7 @@ class TextObject extends GraphicsObject {
       }
     }
     return longestLength;
+    
   }
 
 
@@ -74,17 +75,17 @@ class TextObject extends GraphicsObject {
     else {
       print("check the content of the String array, might be an empty file");
     }
+    
   }
 
 
-  String nature() {
+  String nature(){
     return "textobject";
   }
   
   
   String getFileName(){
     return filename; 
-  
   }
 
   // set local design font

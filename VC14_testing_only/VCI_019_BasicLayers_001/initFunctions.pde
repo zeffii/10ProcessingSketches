@@ -13,7 +13,7 @@ void initGraphicsObjects(){
   float textBox1X = 300 - 230;
   float textBox2X = APP_WIDTH - 300 - 230;
   tPosA = new PVector(textBox1X, 370.0);
-  tPosB = new PVector(textBox2X, 370.0);
+  tPosB = new PVector(textBox2X + 140, 370.0);
 
   // Lowest layer first.
   gobjsA.add(new SVGObject(new PVector(centerA.x,520), "da_logo.svg"));
