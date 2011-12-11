@@ -16,7 +16,7 @@ void setup() {
   
   monoFont = createFont("DroidSansMono.ttf", uiTypeHeight);
   labelFont = createFont("DroidSans.ttf", uiTypeHeight);
-  designFont = createFont("DroidSans.ttf", tHeight);
+  // designFont = createFont("DroidSans.ttf", tHeight);
     
   size(APP_WIDTH, APP_HEIGHT);
   centerA = new PVector(300.0, 300.0);

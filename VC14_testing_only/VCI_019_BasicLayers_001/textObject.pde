@@ -6,13 +6,14 @@ class TextObject extends GraphicsObject {
   int alignType; // 0 = left, 1 = right
   color myColor;
   float lineHeight;
-  // PFont designFont;
+  PFont designFont;
 
   // Constructor
-  TextObject(String _filename, PVector pos, int _typeHeight, int _alignType, color _myColor) {
+  TextObject(String _filename, PVector pos, String fontName, int _typeHeight, int _alignType, color _myColor) {
     super(pos);
     trackNames = getTrackNames(_filename);
     filename = _filename;
+    designFont = createFont(fontName, _typeHeight); 
     typeHeight = _typeHeight;
     alignType = _alignType;
     myColor = _myColor;
@@ -25,14 +26,19 @@ class TextObject extends GraphicsObject {
     //if (!hidden){
     textFont(designFont);
     noStroke();
-
     fill(myColor);
+    
+    float textAlignX = pos.x;
     if (alignType == 0) textAlign(LEFT);
-    if (alignType == 1) textAlign(RIGHT);
-
+    
+    if (alignType == 1) {
+      textAlign(RIGHT); 
+      textAlignX = pos.x + getLongestFrom(trackNames);
+    }
+      
     float pointY = pos.y;
     for (int i = 0; i < trackNames.length; i++) {    
-      text(trackNames[i], pos.x, pointY);
+      text(trackNames[i], textAlignX, pointY);
       pointY += lineHeight;
     }
 
@@ -59,6 +65,7 @@ class TextObject extends GraphicsObject {
   }
 
 
+  // should take a filename directly instead.
   void updateBody(String[] tNames) {
 
     if (tNames.length > 0) {
@@ -80,6 +87,10 @@ class TextObject extends GraphicsObject {
   
   }
 
+  // set local design font
+  
+  
+  // set typeHeight
   
 }
 

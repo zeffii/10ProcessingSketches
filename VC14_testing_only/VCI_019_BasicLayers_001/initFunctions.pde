@@ -17,10 +17,10 @@ void initGraphicsObjects(){
 
   // Lowest layer first.
   gobjsA.add(new SVGObject(new PVector(centerA.x,520), "da_logo.svg"));
-  gobjsA.add(new TextObject("SIDE_A.txt", tPosA, tHeight, 0, myCol));
+  gobjsA.add(new TextObject("SIDE_A.txt", tPosA, "DroidSans.ttf", tHeight, 0, myCol));
     
   gobjsB.add(new SVGObject(new PVector(centerB.x,490), "wonk2.svg"));
-  gobjsB.add(new TextObject("SIDE_B.txt", tPosB, tHeight, 0, myCol));  
+  gobjsB.add(new TextObject("SIDE_B.txt", tPosB, "DroidSans.ttf", tHeight, 1, myCol));  
    
   
   /*
