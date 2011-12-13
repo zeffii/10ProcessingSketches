@@ -7,6 +7,7 @@ class CPicker{
   PVector pos;
   PGraphics pg;
   PImage cpImage;
+  boolean IS_VISIBLE = true;
   
   int bbleft, bbright, bbtop, bbbottom;
 	
@@ -32,7 +33,6 @@ class CPicker{
   void init (){
     
     dH = gradHeight/8;
-    
     pg = createGraphics(w+40, h+80, JAVA2D);
     
     int cw = w - 60;
@@ -92,7 +92,6 @@ class CPicker{
 
 	
   void display (){
-    
 
     pg.beginDraw();
     pg.fill(240);
@@ -117,10 +116,6 @@ class CPicker{
     noStroke();
     rect( pos.x+20, pos.y+gradHeight+25, w, dH);
 
-    //..demo    
-    //stroke(0,255,23);
-    //noFill();
-    //rect(pos.x+270, pos.y+20 , 30, gradHeight);
     
   }
 

@@ -150,15 +150,18 @@ void drawUI(){
   sbContour.display();
   sbBleed.display();
   sbGrid.display();
-    
-  // draw colour pickers
-  displayColourPickers();
   
   // draw grid changers
   if (sbGrid.state){
     gridRowChanger.display();
     gridColumnChanger.display();
   }
+  
+    
+  // draw colour pickers
+  displayColourPickers();
+  
+  
 }
 
 

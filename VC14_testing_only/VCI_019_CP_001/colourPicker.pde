@@ -6,6 +6,9 @@ class ColourPicker{
   float r, g, b, a;
   PVector pos;
   int direction;
+  // boolean showPicker = false;
+  Rectangle bbBox = new Rectangle();
+    
 
   // Constructor
   ColourPicker(int dDir, color colChoice, PVector assemblyPos, String colorName){
@@ -27,6 +30,9 @@ class ColourPicker{
     float stringWidth = textWidth(cTitle);
     float hexBoxLeftX = 0.0;
     float labelPosX = 0.0;
+    
+    // massively ugly code here. *PUKE*
+    
       
     if (direction==0){
       
@@ -34,8 +40,9 @@ class ColourPicker{
       rectMode(CORNER);
       fill(elementColour);
       noStroke();
-      rect(colourBoxLeftX, pos.y, buttonSpacing*2, buttonSize, 4);
-      
+      bbBox = new Rectangle(colourBoxLeftX, pos.y, buttonSpacing*2, buttonSize);
+      rect(bbBox.x, bbBox.y, bbBox.w, bbBox.h, 4);
+                
       hexBoxLeftX = colourBoxLeftX-(buttonSpacing*3)-9;
       rectMode(CORNER);
       noFill();
@@ -52,8 +59,9 @@ class ColourPicker{
       float colourBoxLeftX = pos.x - 3; 
       rectMode(CORNER);
       fill(elementColour);
-      noStroke();
-      rect(colourBoxLeftX, pos.y, buttonSpacing*2, buttonSize, 4);
+      noStroke(); 
+      bbBox = new Rectangle(colourBoxLeftX, pos.y, buttonSpacing*2, buttonSize);
+      rect(bbBox.x, bbBox.y, bbBox.w, bbBox.h, 4);
       
       hexBoxLeftX = colourBoxLeftX+(buttonSpacing*3)-12;
       rectMode(CORNER);
@@ -64,6 +72,7 @@ class ColourPicker{
 
       labelPosX = pos.x - 3;
     }
+
 
     // label description string.
     fill(20,20,20);
@@ -78,6 +87,15 @@ class ColourPicker{
     
     // finished.
     noStroke();
+
+
+    // check mouse interaction
+    if (mousePressed && 
+      mouseX > bbBox.x && mouseX < bbBox.x + bbBox.w &&
+      mouseY > bbBox.y && mouseY < bbBox.y + bbBox.h){
+      showPicker = true;
+    }
+
 
   }
   

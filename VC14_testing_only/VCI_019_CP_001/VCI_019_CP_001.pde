@@ -24,9 +24,6 @@ void setup() {
   
   gobjsA = new ArrayList<GraphicsObject>();
   gobjsB = new ArrayList<GraphicsObject>();
-  // gobjsAB = new ArrayList<GraphicsObject>();
-  // gobjsAB.addAll(gobjsA);
-  // gobjsAB.addAll(gobjsB);
   
   initGraphicsObjects();  
   initSwitchButtons();
@@ -36,7 +33,7 @@ void setup() {
           
   //noLoop();
   //beginRecord(PDF, "filename.pdf"); 
-  cp = new CPicker(new PVector(300,200), 320, 350, 255 );
+  cp = new CPicker(new PVector(400,300), 320, 350, 255 );
     
 }  
 
@@ -66,11 +63,16 @@ void draw() {
     checkGraphicsObjects(); // if the mouse is not in the buttons area. we check graphics area.
   }
 
+
+  if (showPicker){
+      cp.display();
+  }
+
   // drawUIGrid();   
   
   //endRecord();
 
-  cp.display();
+  // cp.display();
 
 }
 
@@ -95,34 +97,27 @@ void checkButtons(){
 
 void checkGraphicsObjects(){
   
-  
-  for (GraphicsObject go : gobjsA){ 
-    if (go.over()){
-      go.selected = true;
-    }else{
-      go.selected = false;
+  if (mouseX < APP_WIDTH/2){
+    for (GraphicsObject go : gobjsA){ 
+      if (go.over()){
+        go.selected = true;
+      }else{
+        go.selected = false;
+      }
     }
+    
   }
   
-  for (GraphicsObject go : gobjsB){ 
-    if (go.over()){
-      go.selected = true;
-    }else{
-      go.selected = false;
+  if (mouseX > APP_WIDTH/2){
+    for (GraphicsObject go : gobjsB){ 
+      if (go.over()){
+        go.selected = true;
+      }else{
+        go.selected = false;
+      }
     }
+    
   }
-  
-  
-  /*
-  for (GraphicsObject go : gobjsAB){ 
-    if (go.over()){
-      go.selected = true;
-    }else{
-      go.selected = false;
-    }
-  }
-  */
-  
     
 }
 
@@ -132,36 +127,29 @@ void mousePressed(){
   
   
   // iterates through GraphicsObjects ArrayList
-  for (GraphicsObject go : gobjsA){
-    if (go.over()){
-      go.locked = false;
-      xOffset = mouseX-go.getXY().x;
-      yOffset = mouseY-go.getXY().y;
+  //if (mouseX < APP_WIDTH/2){
+    for (GraphicsObject go : gobjsA){
+      if (go.over()){
+        go.locked = false;
+        xOffset = mouseX-go.getXY().x;
+        yOffset = mouseY-go.getXY().y;
+      }
+      
     }
     
-  }
-   
-  for (GraphicsObject go : gobjsB){
-    if (go.over()){
-      go.locked = false;
-      xOffset = mouseX-go.getXY().x;
-      yOffset = mouseY-go.getXY().y;
+  //}
+  
+  //if (mouseX > APP_WIDTH/2){ 
+    for (GraphicsObject go : gobjsB){
+      if (go.over()){
+        go.locked = false;
+        xOffset = mouseX-go.getXY().x;
+        yOffset = mouseY-go.getXY().y;
+      }
+      
     }
     
-  }
-  
-  
-  
-  /*
-  for (GraphicsObject go : gobjsAB){
-    if (go.over()){
-      go.locked = false;
-      xOffset = mouseX-go.getXY().x;
-      yOffset = mouseY-go.getXY().y;
-    }
-    
-  }
-  */
+  //}
   
     
   for (SwitchButton button : buttons){
@@ -200,17 +188,21 @@ void mousePressed(){
 
 
 void mouseDragged(){
-  for (GraphicsObject go : gobjsA){
-    if(!go.locked){
-      go.setXY(new PVector(mouseX-xOffset, mouseY-yOffset));
-    }    
-  }
+  //if (mouseX < APP_WIDTH/2){
+    for (GraphicsObject go : gobjsA){
+      if(!go.locked){
+        go.setXY(new PVector(mouseX-xOffset, mouseY-yOffset));
+      }    
+    }
+  //}
   
-  for (GraphicsObject go : gobjsB){
-    if(!go.locked){
-      go.setXY(new PVector(mouseX-xOffset, mouseY-yOffset));
-    }    
-  }
+  //if (mouseX > APP_WIDTH/2){
+    for (GraphicsObject go : gobjsB){
+      if(!go.locked){
+        go.setXY(new PVector(mouseX-xOffset, mouseY-yOffset));
+      }    
+    }
+  //}
  
 }
 
