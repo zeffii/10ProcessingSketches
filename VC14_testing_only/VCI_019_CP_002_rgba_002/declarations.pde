@@ -8,9 +8,11 @@ PVector centerA, centerB;
 PVector tPosA, tPosB;
 
 // contains the GraphicsObjects in order of display.
-ArrayList<GraphicsObject> gobjsA, gobjsB; //, gobjsAB;
+ArrayList<GraphicsObject> gobjsA, gobjsB; //, gobjsAB; //, gobjsAB;
 
 // UI
+PFont monoFont, labelFont, designFont;
+
 SwitchButton sbCrosshair, sbContour, sbBleed, sbGrid;
 SwitchButton[] buttons = new SwitchButton[4];
 
@@ -25,3 +27,6 @@ ValueChanger gridRowChanger, gridColumnChanger;
 ValueChanger[] changers;
 
 LayerViewObject labelALayers, labelBLayers;
+
+CPicker cp;
+

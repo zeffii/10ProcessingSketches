@@ -41,6 +41,8 @@ float uiTopY = 300 + OUTER_MOST_RADIUS + 20;  //300 = centerA.y
 color signColour = color(40, 40, 40);
 color buttonFill = color(210, 210, 210);
 color uiGridColour = color(230, 230, 230);
+boolean showPicker = false;
+color uiCPcolor = color(240,230,23,150);
 
 
 // default Design view 
