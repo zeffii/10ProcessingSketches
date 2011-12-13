@@ -1,0 +1,5 @@
+﻿#UTF8
+1A. StackScope one
+2A. Like Merlin
+3A. Too many Parameters (float mix)
+3A. no Parameters (float mix)
