@@ -1,20 +1,25 @@
 class CPicker{
   int x, y, w, h;
+  int bbleft, bbright, bbtop, bbbottom;
   color c;
   color dbg = color(130, 40);
   int tpSliderW = 40;
+  int sliderWidth = 30;
   
   // display colour area 
   int dH, dW;
   int gradHeight, gradWidth;
   PVector pos;
   PGraphics pg;
+  PGraphics tSlider;
   PImage cpImage;
+//  PImage opImage;
   boolean IS_VISIBLE = true;
   Rectangle colorBox = new Rectangle();
-  int sliderWidth = 30;
+  Rectangle tBox = new Rectangle();
   
-  int bbleft, bbright, bbtop, bbbottom;
+  
+  
 	
   CPicker (PVector pos, int w, int h, color c ){
     this.pos = pos;
@@ -29,7 +34,7 @@ class CPicker{
     this.gradHeight = h-80;
     this.gradWidth = w-40;
     cpImage = new PImage(gradWidth, gradHeight);
-		
+    // opImage = new PImage(sliderWidth, gradHeight);		
     init();
   
   }
@@ -39,6 +44,7 @@ class CPicker{
     
     dH = gradHeight/8;
     pg = createGraphics(w+40+tpSliderW+5, h+80+5, JAVA2D);
+    
     
     int cw = w - 60;
     for( int i=0; i<cw; i++ ){
@@ -97,26 +103,18 @@ class CPicker{
 
 	
   void display (){
-
-    // flush();
     pg.beginDraw();
     pg.smooth();
     pg.noStroke();
     
-    // backdrop shadow
-    // pg.fill(0.5, 0.5);
-    // pg.rect(5,5, w+80,h,20);
-        
     // top UI
     pg.fill(240);
     pg.rect(0, 0, w+40, h, 20,0,0,20);  //should join
     pg.rect(w+40,0,40,h,0,20,20,0);
-
     pg.endDraw();
     
     image(pg, pos.x, pos.y);
-  
-    image( cpImage, pos.x+20, pos.y+20 );
+    image(cpImage, (pos.x + 20), (pos.y + 20));
     if( mousePressed &&
 	mouseX >= pos.x && 
 	mouseX < bbright-20 &&
@@ -128,6 +126,8 @@ class CPicker{
    
     // colour box, setup 
     colorBox = new Rectangle(pos.x+20, pos.y+gradHeight+25, w, dH);
+    //fill(255);
+    //rect(colorBox.x, colorBox.y, colorBox.w, colorBox.h);
     drawCheckeredBackground(colorBox);
        
     // output colour. bottom
@@ -136,11 +136,8 @@ class CPicker{
     rect(colorBox.x, colorBox.y, colorBox.w, colorBox.h);
 
     // draw alpha slider
-    fill(255);
-    int sliderX = int(310+pos.x);
-    int sliderY = int(20+pos.y);
-    rect(sliderX, sliderY, sliderWidth, gradHeight);
-
+    drawTransparencyPicker();
+    
     
   }
   
@@ -169,11 +166,59 @@ class CPicker{
        
     }
     
+        
+  }
+  
+ 
+  void drawTransparencyPicker(){
     
+    fill(255);
+    int sliderX = int(310+pos.x);
+    int sliderY = int(20+pos.y);
+    tBox = new Rectangle(sliderX, sliderY, sliderWidth, gradHeight);
+    rect(tBox.x, tBox.y, tBox.w, tBox.h);
+
+    // draw checkered.    
+    fill(150);
+    int bHeight = tBox.h/30;
+    int bWidth = tBox.w/3;
+    for (int i = 0; i < 3; i += 1){
+      for (int j = 0; j < 30; j += 1){
+        if ( i % 2 == 0 && j % 2 == 0){
+          rect(tBox.x + (bWidth*i), tBox.y + bHeight*j, bWidth, bHeight);
+        }
+        if ( i % 2 == 0 && j % 2 != 0 && i < 2){
+          rect(tBox.x + (bWidth*(i+1)), tBox.y + bHeight*j, bWidth, bHeight);
+        }
+   
+      }     
+       
+    }
+
+    tSlider = createGraphics(int(sliderWidth), int(gradHeight), JAVA2D);
+    tSlider.flush(); 
+    tSlider.beginDraw();  
+    int alphaValueUnit = int(tBox.h/250);
     
+    print("start");
+    for (int m = 0; m < tBox.h; m+=1){
+      tSlider.noStroke();   
+      int alpVal = int(alphaValueUnit*m);
+      tSlider.fill(255,255,255,alpVal);
+      tSlider.rect(0, m, 30, 1);
+      println(alpVal);
+      
+      
+    }
+    print("end");
+
+    tSlider.endDraw();
+    image(tSlider, tBox.x, tBox.y);
+    
+    noLoop();
+   
     
     
   }
-  
  
 }

@@ -53,7 +53,7 @@ color leftBleedColour = color(170, 170, 255);
 color rightBleedColour = color(170, 170, 255);
 
 color leftGridColour = color(244, 20, 130, 20);
-color rightGridColour = color(244, 20, 130, 20);
+color rightGridColour = color(244, 20, 130, 80);
 
 color leftContourColour = color(170, 70, 255);
 color rightContourColour = color(170, 70, 255);
