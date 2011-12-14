@@ -2,7 +2,6 @@ class CPicker{
   int x, y, w, h;
   int bbleft, bbright, bbtop, bbbottom;
   color c;
-  color dbg = color(130, 40);
   int tpSliderW = 40;
   int sliderWidth = 30;
   
@@ -13,12 +12,10 @@ class CPicker{
   PGraphics pg;
   PGraphics tSlider;
   PImage cpImage;
-//  PImage opImage;
   boolean IS_VISIBLE = true;
+
   Rectangle colorBox = new Rectangle();
   Rectangle tBox = new Rectangle();
-  
-  
   
 	
   CPicker (PVector pos, int w, int h, color c ){
@@ -34,7 +31,6 @@ class CPicker{
     this.gradHeight = h-80;
     this.gradWidth = w-40;
     cpImage = new PImage(gradWidth, gradHeight);
-    // opImage = new PImage(sliderWidth, gradHeight);		
     init();
   
   }
@@ -44,7 +40,6 @@ class CPicker{
     
     dH = gradHeight/8;
     pg = createGraphics(w+40+tpSliderW+5, h+80+5, JAVA2D);
-    
     
     int cw = w - 60;
     for( int i=0; i<cw; i++ ){
@@ -126,8 +121,6 @@ class CPicker{
    
     // colour box, setup 
     colorBox = new Rectangle(pos.x+20, pos.y+gradHeight+25, w, dH);
-    //fill(255);
-    //rect(colorBox.x, colorBox.y, colorBox.w, colorBox.h);
     drawCheckeredBackground(colorBox);
        
     // output colour. bottom
@@ -200,7 +193,6 @@ class CPicker{
     tSlider.beginDraw();  
     int alphaValueUnit = int(tBox.h/250);
     
-    //print("start");
     for (int m = 0; m < tBox.h; m+=1){
       tSlider.noStroke();   
       int alpVal = int(alphaValueUnit*m);
@@ -208,17 +200,12 @@ class CPicker{
       tSlider.rect(0, m, 30, 1);
       println(alpVal);
       
-      
     }
-    //print("end");
 
     tSlider.endDraw();
     image(tSlider, tBox.x, tBox.y);
     
-    //noLoop();
-   
-    
-    
   }
+
  
 }
