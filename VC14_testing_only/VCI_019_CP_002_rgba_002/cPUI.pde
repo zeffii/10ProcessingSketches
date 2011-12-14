@@ -1,16 +1,15 @@
 class CPicker{
   int x, y, w, h;
   int bbleft, bbright, bbtop, bbbottom;
-  color c;
   int tpSliderW = 40;
   int sliderWidth = 30;
   
   // display colour area 
   int dH, dW;
   int gradHeight, gradWidth;
+  color c;
   PVector pos;
-  PGraphics pg;
-  PGraphics tSlider;
+  PGraphics pg, tSlider;
   PImage cpImage;
   boolean IS_VISIBLE = true;
 
@@ -40,7 +39,8 @@ class CPicker{
     
     dH = gradHeight/8;
     pg = createGraphics(w+40+tpSliderW+5, h+80+5, JAVA2D);
-    
+
+    // where is the yellow at?    might have to write my own, and scrap this monster.
     int cw = w - 60;
     for( int i=0; i<cw; i++ ){
       float nColorPercent = i / (float)cw;
@@ -48,18 +48,17 @@ class CPicker{
       int nR = (int)(cos(rad) * 127 + 128) << 16;
       int nG = (int)(cos(rad + 2 * PI / 3) * 127 + 128) << 8;
       int nB = (int)(Math.cos(rad + 4 * PI / 3) * 127 + 128);
-      
-      // note the Bitwise inclusive OR operator.
       int nColor = nR | nG | nB;
 			
       setGradient( i, 0, 1, gradHeight/2, 0xFFFFFF, nColor );
       setGradient( i, (gradHeight/2), 1, gradHeight/2, nColor, 0x000000 );
     }
   
+    // black and white
     drawRect( cw, 0,   30, gradHeight/2, 0xFFFFFF );
     drawRect( cw, gradHeight/2, 30, gradHeight/2, 0 );
 		
-    // draw grey scale.
+    // grey scale.
     for( int j = 0; j< int(gradHeight); j++ ){
       int g = 255 - (int)(j/(float)(gradHeight-1) * 255 );
       drawRect( int(250), j, 30, 1, color( g, g, g ) );
@@ -98,42 +97,42 @@ class CPicker{
 
 	
   void display (){
-    pg.beginDraw();
-    pg.smooth();
-    pg.noStroke();
-    
-    // top UI
-    pg.fill(240);
-    pg.rect(0, 0, w+40, h, 20,0,0,20);  //should join
-    pg.rect(w+40,0,40,h,0,20,20,0);
-    pg.endDraw();
-    
-    image(pg, pos.x, pos.y);
+    drawBackground();
     image(cpImage, (pos.x + 20), (pos.y + 20));
-    if( mousePressed &&
-	mouseX >= pos.x && 
-	mouseX < bbright-20 &&
-	mouseY >= pos.y &&
-	mouseY < pos.y + h )
-    {
-      c = get( mouseX, mouseY );
-    }
+    updateColourFromMouse();  // the indicator 'colourbox'
    
-    // colour box, setup 
+    // colour box
     colorBox = new Rectangle(pos.x+20, pos.y+gradHeight+25, w, dH);
     drawCheckeredBackground(colorBox);
-       
-    // output colour. bottom
-    fill( c );
-    noStroke();
-    rect(colorBox.x, colorBox.y, colorBox.w, colorBox.h);
+    drawColourBox(colorBox); 
 
     // draw alpha slider
     drawTransparencyPicker();
-    
-    
+    updateAlphaFromMouse();
+        
   }
+ 
+ 
+  void drawBackground(){
+    pg.beginDraw();
+    pg.smooth();
+    pg.noStroke();
+    pg.fill(240);
+    pg.rect(0, 0, w+40, h, 20,0,0,20);  //should join [todo]
+    pg.rect(w+40,0,40,h,0,20,20,0);
+    pg.endDraw();
+    image(pg, pos.x, pos.y);
+
+  } 
   
+  
+  void drawColourBox(Rectangle colorBox){
+    fill(c);
+    noStroke();
+    rect(colorBox.x, colorBox.y, colorBox.w, colorBox.h);
+  
+  }
+    
   
   void drawCheckeredBackground(Rectangle cBoxRect){
     
@@ -164,7 +163,6 @@ class CPicker{
   
  
   void drawTransparencyPicker(){
-    
     fill(255);
     int sliderX = int(310+pos.x);
     int sliderY = int(20+pos.y);
@@ -188,17 +186,21 @@ class CPicker{
        
     }
 
+    drawGradientOverlay();
+     
+  }
+ 
+ 
+  void drawGradientOverlay(){
     tSlider = createGraphics(int(sliderWidth), int(gradHeight), JAVA2D);
-    tSlider.flush(); 
     tSlider.beginDraw();  
-    int alphaValueUnit = int(tBox.h/250);
+    int alphaValueUnit = int(tBox.h/255);
     
     for (int m = 0; m < tBox.h; m+=1){
       tSlider.noStroke();   
       int alpVal = int(alphaValueUnit*m);
-      tSlider.fill(255,255,255,alpVal);
+      tSlider.fill(red(c),green(c),blue(c),alpVal);
       tSlider.rect(0, m, 30, 1);
-      println(alpVal);
       
     }
 
@@ -206,6 +208,37 @@ class CPicker{
     image(tSlider, tBox.x, tBox.y);
     
   }
-
+ 
+ 
+  
+  void updateColourFromMouse(){
+    if( mousePressed &&
+  	mouseX >= pos.x && 
+  	mouseX < bbright-20 &&
+  	mouseY >= pos.y &&
+  	mouseY < pos.y + h )
+        {
+        c = get( mouseX, mouseY );
+        }  
+          
+  }
+ 
+ 
+   void updateAlphaFromMouse(){
+     if (mousePressed && 
+        mouseX > tBox.x && 
+        mouseX < (tBox.x + tBox.w) &&
+        mouseY > tBox.y && 
+        mouseY < (tBox.y + tBox.h))
+        {  
+        float realVal = mouseY - tBox.y;
+        int foundAlpha = int( 255.0/gradHeight*realVal );
+        // print(foundAlpha + "\n");
+        
+        c = color(red(c),green(c),blue(c), foundAlpha);
+        }
+        
+    }
+ 
  
 }
