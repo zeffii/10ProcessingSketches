@@ -4,6 +4,10 @@ class CPicker{
   int tpSliderW = 40;
   int sliderWidth = 30;
   
+  // closebutton
+  int offset = 8;
+  Rectangle closeButton = new Rectangle();
+  
   // display colour area 
   int dH, dW;
   int gradHeight, gradWidth;
@@ -11,11 +15,11 @@ class CPicker{
   PVector pos;
   PGraphics pg, tSlider;
   PImage cpImage;
-  boolean IS_VISIBLE = true;
-
+  
+  // transparency and the wide colour box at the bottom
   Rectangle colorBox = new Rectangle();
   Rectangle tBox = new Rectangle();
-  
+    
 	
   CPicker (PVector pos, int w, int h, color c ){
     this.pos = pos;
@@ -109,6 +113,9 @@ class CPicker{
     // draw alpha slider
     drawTransparencyPicker();
     updateAlphaFromMouse();
+    
+    // draw buttons
+    drawCloseButton();
         
   }
  
@@ -210,9 +217,36 @@ class CPicker{
   }
  
  
+ 
+  void drawCloseButton(){
+    pushStyle();
+      noStroke();
+      fill(133);
+      ellipseMode(CORNER);
+      float tleftSide = (pos.x + 343);
+      float trightSide = (tleftSide + 30);
+      float ttopSide = pos.y - 15;
+      float tbottomSide = (ttopSide + 30);
+      closeButton = new Rectangle(tleftSide, ttopSide, 30, 30);
+      ellipse(closeButton.x, closeButton.y, closeButton.w, closeButton.h); 
+      
+      stroke(255);
+      strokeWeight(2);
+      noFill();
+      // rect(tleftSide, pos.y, 30, 30);
+      int offset = 8;
+      line(tleftSide + offset, ttopSide + offset, trightSide - offset, tbottomSide - offset);
+      line(tleftSide + offset, tbottomSide - offset, trightSide - offset, ttopSide + offset);
+    popStyle();
+    
+    
+    
+  }
+ 
+ 
   
   void updateColourFromMouse(){
-    if( mousePressed &&
+    if (mousePressed &&
   	mouseX >= pos.x && 
   	mouseX < bbright-20 &&
   	mouseY >= pos.y &&
@@ -239,6 +273,21 @@ class CPicker{
         }
         
     }
+ 
+   // looked at when mouseReleased is encountered, in main thread.
+   boolean over(){
+     if (mouseX > closeButton.x + offset&&
+        mouseX < closeButton.x + closeButton.w -offset&&
+        mouseY > closeButton.y + offset&&
+        mouseY < closeButton.y + closeButton.h -offset)
+        { 
+        return true; 
+        }
+     else{
+        return false;  
+        }
+   }
+ 
  
  
 }

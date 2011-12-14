@@ -112,10 +112,5 @@ void initLayersMechanism(){
 }
 
 
-void displayColourPickers(){
-   for (ColourPicker colourPicker : colourPickers){
-       colourPicker.display();
-   } 
-    
-}
+
 

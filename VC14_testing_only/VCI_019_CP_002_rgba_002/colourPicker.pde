@@ -95,6 +95,7 @@ class ColourPicker{
       mouseY > bbBox.y && mouseY < bbBox.y + bbBox.h){
       cp.c = elementColour;
       showPicker = true;
+      //cp.IS_VISIBLE = true;
     }
 
 

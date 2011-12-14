@@ -216,6 +216,8 @@ void mouseReleased(){
     go.locked = true; 
   }
   
+  if (cp.over()) showPicker = false;
+  
 }
 
 

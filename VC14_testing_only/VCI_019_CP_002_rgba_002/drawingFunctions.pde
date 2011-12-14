@@ -165,6 +165,14 @@ void drawUI(){
 }
 
 
+void displayColourPickers(){
+   for (ColourPicker colourPicker : colourPickers){
+       colourPicker.display();
+   } 
+    
+}
+
+
 void drawUIGrid() {
   
   // thar be dragons 'ere! 
