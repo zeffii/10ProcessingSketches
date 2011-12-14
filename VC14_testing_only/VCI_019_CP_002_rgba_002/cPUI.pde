@@ -200,7 +200,7 @@ class CPicker{
     tSlider.beginDraw();  
     int alphaValueUnit = int(tBox.h/250);
     
-    print("start");
+    //print("start");
     for (int m = 0; m < tBox.h; m+=1){
       tSlider.noStroke();   
       int alpVal = int(alphaValueUnit*m);
@@ -210,12 +210,12 @@ class CPicker{
       
       
     }
-    print("end");
+    //print("end");
 
     tSlider.endDraw();
     image(tSlider, tBox.x, tBox.y);
     
-    noLoop();
+    //noLoop();
    
     
     
