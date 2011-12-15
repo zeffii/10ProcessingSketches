@@ -22,16 +22,13 @@ void findConstructionColourAndChange(){
    if (numToSet == 9) rightLabelColour = newElementColour;                 //    colLabelRight
    
    
-   colourPickers[numToSet].setColour(newElementColour); 
+   // colourPickers[numToSet].setColour(newElementColour);
+   colourPickers[numToSet].r = red(newElementColour);
+   colourPickers[numToSet].g = green(newElementColour);
+   colourPickers[numToSet].b = blue(newElementColour);
+   colourPickers[numToSet].a = alpha(newElementColour);
+    
+   
   
 }
-
-
-
-
-
-
-
-
-
 
