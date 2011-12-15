@@ -43,6 +43,7 @@ color buttonFill = color(210, 210, 210);
 color uiGridColour = color(230, 230, 230);
 boolean showPicker = false;
 color uiCPcolor = color(240,230,23,150);
+color newElementColour = color(0,0,0,0);
 
 
 // default Design view 

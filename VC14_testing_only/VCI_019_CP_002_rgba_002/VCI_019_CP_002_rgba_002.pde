@@ -216,8 +216,15 @@ void mouseReleased(){
     go.locked = true; 
   }
   
-  if (cp.over()) showPicker = false;
-  
+  // close colourPicker UI, set the new color in the construction section.
+  if (cp.over()) {
+    newElementColour = cp.c;
+    findConstructionColourAndChange();
+    showPicker = false;
+    for (ColourPicker colourPicker : colourPickers){
+       colourPicker.currentlyModifiedColour = false;
+   } 
+  }
 }
 
 

@@ -208,7 +208,6 @@ class CPicker{
       int alpVal = int(alphaValueUnit*m);
       tSlider.fill(red(c),green(c),blue(c),alpVal);
       tSlider.rect(0, m, 30, 1);
-      
     }
 
     tSlider.endDraw();
@@ -231,7 +230,7 @@ class CPicker{
       ellipse(closeButton.x, closeButton.y, closeButton.w, closeButton.h); 
       
       stroke(255);
-      strokeWeight(2);
+      strokeWeight(4);
       noFill();
       // rect(tleftSide, pos.y, 30, 30);
       int offset = 8;
@@ -280,7 +279,7 @@ class CPicker{
         mouseX < closeButton.x + closeButton.w -offset&&
         mouseY > closeButton.y + offset&&
         mouseY < closeButton.y + closeButton.h -offset)
-        { 
+        {
         return true; 
         }
      else{

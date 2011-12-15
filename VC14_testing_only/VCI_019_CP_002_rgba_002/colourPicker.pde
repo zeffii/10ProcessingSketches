@@ -1,4 +1,4 @@
-// mainly unimplemented so far, very messy.
+// portions unimplemented so far, very messy.
 
 class ColourPicker{
 
@@ -6,12 +6,13 @@ class ColourPicker{
   float r, g, b, a;
   PVector pos;
   int direction;
-  // boolean showPicker = false;
   Rectangle bbBox = new Rectangle();
-    
+  color elementColour;
+  boolean currentlyModifiedColour = false;
 
   // Constructor
   ColourPicker(int dDir, color colChoice, PVector assemblyPos, String colorName){
+
     r = red(colChoice);
     g = green(colChoice);
     b = blue(colChoice);
@@ -25,7 +26,7 @@ class ColourPicker{
   
   void display(){
     
-    color elementColour = color(r, g, b, a);
+    elementColour = color(r, g, b, a);
     textFont(labelFont);
     float stringWidth = textWidth(cTitle);
     float hexBoxLeftX = 0.0;
@@ -95,10 +96,21 @@ class ColourPicker{
       mouseY > bbBox.y && mouseY < bbBox.y + bbBox.h){
       cp.c = elementColour;
       showPicker = true;
+      currentlyModifiedColour = true;
       //cp.IS_VISIBLE = true;
     }
 
 
+  }
+  
+  
+
+  
+  void setColour(color newColor){
+      elementColour = newColor;
+      display();      
+    
+    
   }
   
 }
